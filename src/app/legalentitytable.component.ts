@@ -1,14 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ViewEncapsulation } from '@angular/core';
-
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { LegalEntityView } from './model/legal-entity-view';
 import { Page } from './model/page';
 
-import { LegalEntityViewService } from './service/mock-server-results-service';
-
-interface LegalEntityResponse {
-  results: string[];
-}
+import { LegalEntityViewService } from './service/legal-entity-view-service';
 
 @Component({
   selector: 'app-entity-table',
