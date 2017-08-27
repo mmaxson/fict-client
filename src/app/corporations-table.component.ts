@@ -4,11 +4,9 @@ import { ViewEncapsulation } from '@angular/core';
 import { LegalEntityView } from './model/legal-entity-view';
 import { Page } from './model/page';
 
-import { LegalEntityViewService } from './service/mock-server-results-service';
+import { LegalEntityViewService } from './service/legal-entity-service';
 
-interface LegalEntityResponse {
-  results: string[];
-}
+
 
 @Component({
   selector: 'app-entity-table',
@@ -16,11 +14,11 @@ interface LegalEntityResponse {
     LegalEntityViewService
   ],
   encapsulation: ViewEncapsulation.None,
-  templateUrl: './legalentitytable.component.html',
-  styleUrls: ['./legalentitytable.component.scss']
+  templateUrl: './corporations-table.component.html',
+  styleUrls: ['./corporations-table.component.scss']
 
 })
-export class LegalEntityTableComponent implements OnInit {
+export class CorporationsTableComponent implements OnInit {
 
   private page = new Page();
   private rows = new Array<LegalEntityView>();

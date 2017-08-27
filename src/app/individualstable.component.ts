@@ -8,26 +8,15 @@ import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-corporations-table',
-  styleUrls: ['table-pagination-example.css'],
-  templateUrl: 'table-pagination-example.html',
+  // styleUrls: ['individualstable.component.css'],
+  templateUrl: 'individualstable.component.html',
 })
-export class CorporationsTableComponent implements OnInit {
+export class IndividualsTableComponent implements OnInit {
   displayedColumns = ['userId', 'userName', 'progress', 'color'];
-//{name:"Name"},{name:"Address Type"},{name:"Street"},{name:"City"},{name:"State"},{name:"Zip Code"}]'
-  @ViewChild(MdPaginator) paginator: MdPaginator;
+// {name:"Name"},{name:"Address Type"},{name:"Street"},{name:"City"},{name:"State"},{name:"Zip Code"}]'
+ //  @ViewChild(MdPaginator) paginator: MdPaginator;
 
   ngOnInit() {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-/

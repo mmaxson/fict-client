@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 
-import { LegalEntityTableComponent } from './legalentitytable.component';
+import { CorporationsTableComponent } from './corporations-table.component';
 
 
 
 @NgModule({
   declarations: [
-    LegalEntityTableComponent
+    CorporationsTableComponent
   ],
   imports: [
     NgxDatatableModule, BrowserModule
@@ -17,7 +17,7 @@ import { LegalEntityTableComponent } from './legalentitytable.component';
   providers: [],
   bootstrap: []
 })
-export class LegalEntityTableModule {
+export class CorporationsTableModule {
 }
 
 
