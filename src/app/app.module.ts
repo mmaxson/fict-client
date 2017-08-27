@@ -1,26 +1,21 @@
 
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {BrowserModule } from '@angular/platform-browser';
+import {NgModule } from '@angular/core';
+import {AppMaterialModule} from './app-material.module';
+import {AppComponent } from './app.component';
+import {LegalEntityTableComponent } from './legalentitytable.component';
+import {NgxDatatableModule } from '@swimlane/ngx-datatable';
+import {HttpClientModule } from '@angular/common/http';
 
-import { AppComponent } from './app.component';
-import { LegalEntityTableComponent } from './legalentitytable.component';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { HttpClientModule } from '@angular/common/http';
 
-const routes: Routes = [
 
-  {path: 'list', component: LegalEntityTableComponent}
-
-];
 @NgModule({
   declarations: [
     AppComponent,
-    LegalEntityTableComponent,
+    LegalEntityTableComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule, NgxDatatableModule,
-    RouterModule.forRoot(routes)
+    BrowserModule, HttpClientModule, NgxDatatableModule, AppMaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
