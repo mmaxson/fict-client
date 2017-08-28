@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
 import { CorporateEntity } from './model/corporate-entity';
 import { Page } from './model/page';
-
 import { LegalEntityViewService } from './service/corporate-entity-service';
-
-
 
 @Component({
   selector: 'app-corporations-table',
@@ -15,7 +11,6 @@ import { LegalEntityViewService } from './service/corporate-entity-service';
   encapsulation: ViewEncapsulation.None,
   templateUrl: './corporations-table.component.html',
   styleUrls: ['./corporations-table.component.scss']
-
 })
 export class CorporationsTableComponent implements OnInit {
 

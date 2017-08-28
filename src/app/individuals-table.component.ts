@@ -1,12 +1,7 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-
-
-import { IndividualEntity } from './model/individual-entity';
-import { Page } from './model/page';
-
-import { IndividualEntitiesService } from './service/individual-entities-service';
-
-
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {IndividualEntity} from './model/individual-entity';
+import {Page} from './model/page';
+import {IndividualEntitiesService} from './service/individual-entities-service';
 
 @Component({
   selector: 'app-individuals-table',
@@ -16,7 +11,6 @@ import { IndividualEntitiesService } from './service/individual-entities-service
   encapsulation: ViewEncapsulation.None,
   templateUrl: './individuals-table.component.html',
   styleUrls: ['./individuals-table.component.scss']
-
 })
 export class IndividualsTableComponent implements OnInit {
 
@@ -32,7 +26,7 @@ export class IndividualsTableComponent implements OnInit {
     this.setPage({ offset: 0 });
   }
 
-  setPage(pageInfo){
+  setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
     this.individualEntitiesService.getData( this.page, this.rows );
   }

@@ -33,23 +33,23 @@ export class IndividualEntitiesService {
 
         for (let i = start; i < end; i++) {
 
-          let first: string;
-          let middle: string;
-          let last: string;
+          let firstName: string;
+          let middleName: string;
+          let lastName: string;
 
           for ( let k of this.results[i].entityNames ) {
 
             switch (k.nameType.nameTypeText) {
               case 'First': {
-                first = k.name;
+                firstName = k.name;
                 break;
               }
               case 'Middle': {
-                middle = k.name;
+                middleName = k.name;
                 break;
               }
               case 'Last': {
-                last =  k.name;
+                lastName =  k.name;
                 break;
               }
               default: {
@@ -59,13 +59,11 @@ export class IndividualEntitiesService {
             }
           }
 
-
-
           let addressExists = false;
           for (let j of this.results[i].entityAddresses) {
             totalRows = totalRows + 1;
 
-            const legalEntity: IndividualEntity = new IndividualEntity(first, middle, last,
+            const legalEntity: IndividualEntity = new IndividualEntity(firstName, middleName, lastName,
               j.addressType.addressTypeText, j.address.street, j.address.city, j.address.state, j.address.zipCode);
 
             rows.push(legalEntity);
@@ -75,7 +73,7 @@ export class IndividualEntitiesService {
           if (!addressExists) {
 
             totalRows = totalRows + 1;
-            const legalEntity: IndividualEntity = new IndividualEntity( first, middle, last, '', '', '', '', '' );
+            const legalEntity: IndividualEntity = new IndividualEntity( firstName, middleName, lastName, '', '', '', '', '' );
             rows.push(legalEntity);
           }
 

@@ -34,9 +34,6 @@ export class LegalEntityViewService {
 
         for (let i = start; i < end; i++) {
 
-          console.log('n1 ' + this.results[i].entityNames[0].name);
-
-
           let addressExists: Boolean = false;
           for (let j of this.results[i].entityAddresses) {
             totalRows = totalRows + 1;
