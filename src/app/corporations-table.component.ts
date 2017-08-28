@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { LegalEntityView } from './model/legal-entity-view';
+import { CorporateEntity } from './model/corporate-entity';
 import { Page } from './model/page';
 
-import { LegalEntityViewService } from './service/legal-entity-service';
+import { LegalEntityViewService } from './service/corporate-entity-service';
 
 
 
 @Component({
-  selector: 'app-entity-table',
+  selector: 'app-corporations-table',
   providers: [
     LegalEntityViewService
   ],
@@ -21,7 +20,7 @@ import { LegalEntityViewService } from './service/legal-entity-service';
 export class CorporationsTableComponent implements OnInit {
 
   private page = new Page();
-  private rows = new Array<LegalEntityView>();
+  private rows = new Array<CorporateEntity>();
 
   constructor(private legalEntityViewService: LegalEntityViewService) {
     this.page.pageNumber = 0;

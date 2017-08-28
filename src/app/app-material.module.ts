@@ -3,7 +3,7 @@ import {MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule, MdTa
 import { CdkTableModule } from '@angular/cdk';
 
 @NgModule({
-  imports: [MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule, MdTableModule, CdkTableModule],
-  exports: [MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule, MdTableModule, CdkTableModule],
+  imports: [MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule],
+  exports: [MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule],
 })
 export class AppMaterialModule { }

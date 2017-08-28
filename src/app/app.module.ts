@@ -8,7 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {NgxDatatableModule } from '@swimlane/ngx-datatable';
 import {HttpClientModule } from '@angular/common/http';
 import {CorporationsTableComponent } from './corporations-table.component';
-import {IndividualsTableComponent } from './individualstable.component';
+import {IndividualsTableComponent } from './individuals-table.component';
 
 const routes: Routes = [
 

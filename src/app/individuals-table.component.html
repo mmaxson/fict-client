@@ -1,0 +1,16 @@
+<div>
+  <ngx-datatable
+    class='material'
+    [rows]='rows'
+    [columns]='[{name:"First Name"},{name:"Middle Name"},{name:"Last Name"},{name:"Address Type"},{name:"Street"},{name:"City"},{name:"State"},{name:"Zip Code"}]'
+    [columnMode]="'force'"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [externalPaging]="true"
+    [count]="page.totalElements"
+    [offset]="page.pageNumber"
+    [limit]="page.size"
+    (page)='setPage($event)'>
+  </ngx-datatable>
+</div>

@@ -1,4 +1,4 @@
-export class LegalEntityView {
+export class CorporateEntity {
   public name: string;
   public addressType: string;
   public street: string;

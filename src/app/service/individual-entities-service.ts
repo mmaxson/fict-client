@@ -1,32 +1,30 @@
 
 import { Injectable } from '@angular/core';
 
-import { PagedData } from '../model/paged-data';
-import { LegalEntityView } from '../model/legal-entity-view';
+import { IndividualEntity } from '../model/individual-entity';
 import { Page } from '../model/page';
 import { HttpClient } from '@angular/common/http';
 
 
 
 
-interface LegalEntityResponse {
+interface ServerResponse {
   results: string[];
 }
 
 
 @Injectable()
-export class LegalEntityViewService {
+export class IndividualEntitiesService {
 
-  private url = '//localhost:8080/murun/fict/entities?entity_type=Corporation';
-  private pagedData: PagedData<LegalEntityView> = new PagedData<LegalEntityView>();
+  private url = '//localhost:8080/murun/fict/entities?entity_type=Individual';
 
 
   constructor(private http: HttpClient) {}
 
 
-  getData( page: Page, rows: Array<LegalEntityView> ) {
-    this.http.get<LegalEntityResponse>(this.url).subscribe(
-      function (data: LegalEntityResponse) {
+  public getData( page: Page, rows: Array<IndividualEntity> ) {
+    this.http.get<ServerResponse>(this.url).subscribe(
+      function (data: ServerResponse) {
         this.results = data;
         let totalRows = 0;
 
@@ -35,21 +33,49 @@ export class LegalEntityViewService {
 
         for (let i = start; i < end; i++) {
 
-          console.log('n1 ' + this.results[i].entityNames[0].name);
+          let first: string;
+          let middle: string;
+          let last: string;
+
+          for ( let k of this.results[i].entityNames ) {
+
+            switch (k.nameType.nameTypeText) {
+              case 'First': {
+                first = k.name;
+                break;
+              }
+              case 'Middle': {
+                middle = k.name;
+                break;
+              }
+              case 'Last': {
+                last =  k.name;
+                break;
+              }
+              default: {
+                console.log('Invalid choice');
+                break;
+              }
+            }
+          }
 
 
-          let addressExists: Boolean = false;
+
+          let addressExists = false;
           for (let j of this.results[i].entityAddresses) {
             totalRows = totalRows + 1;
-            const legalEntity = new LegalEntityView(this.results[i].entityNames[0].name,
+
+            const legalEntity: IndividualEntity = new IndividualEntity(first, middle, last,
               j.addressType.addressTypeText, j.address.street, j.address.city, j.address.state, j.address.zipCode);
+
             rows.push(legalEntity);
             addressExists = true;
           }
 
           if (!addressExists) {
+
             totalRows = totalRows + 1;
-            const legalEntity = new LegalEntityView(this.results[i].entityNames[0].name, '', '', '', '', '');
+            const legalEntity: IndividualEntity = new IndividualEntity( first, middle, last, '', '', '', '', '' );
             rows.push(legalEntity);
           }
 
@@ -69,5 +95,7 @@ export class LegalEntityViewService {
       }
     );
   }
+
+
 }
 
