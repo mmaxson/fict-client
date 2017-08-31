@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {IndividualEntity} from './model/individual-entity';
 import {Page} from './model/page';
-import {IndividualEntitiesService} from './service/individual-entities-service';
+import {IndividualEntityService} from './service/individual-entity-service';
 
 @Component({
   selector: 'app-individuals-table',
   providers: [
-    IndividualEntitiesService
+    IndividualEntityService
   ],
   encapsulation: ViewEncapsulation.None,
   templateUrl: './individuals-table.component.html',
@@ -17,7 +17,7 @@ export class IndividualsTableComponent implements OnInit {
   private page = new Page();
   private rows = new Array<IndividualEntity>();
 
-  constructor(private individualEntitiesService: IndividualEntitiesService) {
+  constructor(private individualEntitiesService: IndividualEntityService) {
     this.page.pageNumber = 0;
     this.page.size = 20;
   }

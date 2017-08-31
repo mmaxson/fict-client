@@ -9,6 +9,8 @@ import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {HttpClientModule} from '@angular/common/http';
 import {CorporationsTableComponent} from './corporations-table.component';
 import {IndividualsTableComponent} from './individuals-table.component';
+import {LegalEntitiesTableComponent} from './legal-entities-table.component';
+import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 
 const routes: Routes = [
   {path: 'corporations', component: CorporationsTableComponent},
@@ -18,12 +20,13 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    CorporationsTableComponent, IndividualsTableComponent
+    LegalEntitiesTableComponent, CorporationsTableComponent, IndividualsTableComponent
   ],
+
   imports: [
     BrowserModule, HttpClientModule, RouterModule.forRoot(routes), NgxDatatableModule, AppMaterialModule,
   ],
-  providers: [],
+  providers: [EntityTypeNameTypeService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

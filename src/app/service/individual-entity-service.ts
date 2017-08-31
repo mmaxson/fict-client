@@ -1,12 +1,8 @@
 
-import { Injectable } from '@angular/core';
-
-import { IndividualEntity } from '../model/individual-entity';
-import { Page } from '../model/page';
-import { HttpClient } from '@angular/common/http';
-
-
-
+import {Injectable} from '@angular/core';
+import {IndividualEntity} from '../model/individual-entity';
+import {Page} from '../model/page';
+import {HttpClient} from '@angular/common/http';
 
 interface ServerResponse {
   results: string[];
@@ -14,7 +10,7 @@ interface ServerResponse {
 
 
 @Injectable()
-export class IndividualEntitiesService {
+export class IndividualEntityService {
 
   private url = '//localhost:8080/murun/fict/entities?entity_type=Individual';
 
@@ -37,7 +33,7 @@ export class IndividualEntitiesService {
           let middleName: string;
           let lastName: string;
 
-          for ( let k of this.results[i].entityNames ) {
+          for ( const k of this.results[i].entityNames ) {
 
             switch (k.nameType.nameTypeText) {
               case 'First': {

@@ -1,26 +1,26 @@
 
 import {Injectable} from '@angular/core';
-import {CorporateEntity} from '../model/corporate-entity';
+import {IndividualEntity} from '../model/individual-entity';
 import {Page} from '../model/page';
 import {HttpClient} from '@angular/common/http';
 
-interface LegalEntityResponse {
+interface ServerResponse {
   results: string[];
 }
 
 
 @Injectable()
-export class CorporateEntityService {
+export class LegalEntityService {
 
-  private url = '//localhost:8080/murun/fict/entities?entity_type=Corporation';
+  private url = '//localhost:8080/murun/fict/entities?entity_type=Individual';
 
 
   constructor(private http: HttpClient) {}
 
 
-  getData( page: Page, rows: Array<CorporateEntity> ) {
-    this.http.get<LegalEntityResponse>(this.url).subscribe(
-      function (data: LegalEntityResponse) {
+  public getData( page: Page, rows: Array<IndividualEntity> ) {
+    this.http.get<ServerResponse>(this.url).subscribe(
+      function (data: ServerResponse) {
         this.results = data;
         let totalRows = 0;
 
@@ -29,18 +29,47 @@ export class CorporateEntityService {
 
         for (let i = start; i < end; i++) {
 
-          let addressExists: Boolean = false;
+          let firstName: string;
+          let middleName: string;
+          let lastName: string;
+
+          for ( const k of this.results[i].entityNames ) {
+
+            switch (k.nameType.nameTypeText) {
+              case 'First': {
+                firstName = k.name;
+                break;
+              }
+              case 'Middle': {
+                middleName = k.name;
+                break;
+              }
+              case 'Last': {
+                lastName =  k.name;
+                break;
+              }
+              default: {
+                console.log('Invalid choice');
+                break;
+              }
+            }
+          }
+
+          let addressExists = false;
           for (let j of this.results[i].entityAddresses) {
             totalRows = totalRows + 1;
-            const legalEntity = new CorporateEntity(this.results[i].entityNames[0].name,
+
+            const legalEntity: IndividualEntity = new IndividualEntity(firstName, middleName, lastName,
               j.addressType.addressTypeText, j.address.street, j.address.city, j.address.state, j.address.zipCode);
+
             rows.push(legalEntity);
             addressExists = true;
           }
 
           if (!addressExists) {
+
             totalRows = totalRows + 1;
-            const legalEntity = new CorporateEntity(this.results[i].entityNames[0].name, '', '', '', '', '');
+            const legalEntity: IndividualEntity = new IndividualEntity( firstName, middleName, lastName, '', '', '', '', '' );
             rows.push(legalEntity);
           }
 
@@ -60,5 +89,7 @@ export class CorporateEntityService {
       }
     );
   }
+
+
 }
 
