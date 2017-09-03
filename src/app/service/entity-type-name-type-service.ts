@@ -1,64 +1,49 @@
 
-import {Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LegalEntityTypeNameType} from '../model/legal-entity-type-name-type';
 import {HttpClient } from '@angular/common/http';
-
-interface ServerResponse {
-  results: string[];
-}
+import 'rxjs/Rx';
 
 
 @Injectable()
-export class EntityTypeNameTypeService {
+export class EntityTypeNameTypeService  {
 
-  private testVar = new Array<string>();
   private url = '//localhost:8080/murun/fict/entityTypeNameTypes';
-  private entityTypeNameTypeList = new Array<LegalEntityTypeNameType>();
+
+
 
 
 
   constructor(private http: HttpClient) {
-
-
   }
 
+  public getEntityTypeNameTypeList(): Promise<Array<LegalEntityTypeNameType>> {
 
-  public loadTestVar() {
+    console.log('loadEntityTypeNameTypeList::::::::::::::::::::');
 
-    this.testVar.push('a');
-    this.testVar.push('b');
-    this.testVar.push('c');
-  }
-
-  public loadEntityTypeNameTypeList(entityTypeNameTypeList) {
-
-    this.loadTestVar();
-
-     this.http.get<ServerResponse>(this.url).subscribe(
-         function ( data: ServerResponse) {
-           this.results = data;
-
-           for (const result of this.results) {
-             entityTypeNameTypeList.push(new LegalEntityTypeNameType(result.legalEntityType.legalEntityTypeText,
-               result.nameType.nameTypeText));
-           }
-
-         },
-        function (exception: any) {
-          console.log('Exception: ' + exception);
-        },
-        function () {
-          console.log('************** Completed ***********************');
+    const promise = new Promise((resolve, reject) => {
+      this.http.get<Array<string>>(this.url).toPromise().then(
+        response => {
+         const entityTypeNameTypeList = new Array<LegalEntityTypeNameType>();
+         for (const result of response) {
+            entityTypeNameTypeList.push(new LegalEntityTypeNameType(result['legalEntityType'].legalEntityTypeText,
+             result['nameType'].nameTypeText));
+          }
+          resolve(entityTypeNameTypeList);
         }
       );
+    });
+
+    return promise;
   }
 
 
 
-  getEntityTypeNameTypes(entityTypeText: string): Array<string> {
+  public getEntityTypeNameTypes(entityTypeNameTypeList: Array<LegalEntityTypeNameType>, entityTypeText: string): Array<string> {
+  // console.log( 'getEntityTypeNameTypes param' + entityTypeText);
     const retVal = new Array<string>();
-    for ( const val of this.entityTypeNameTypeList){
-      console.log( val );
+    for ( const val of entityTypeNameTypeList){
+   //  console.log( 'getEntityTypeNameTypes ' + val.nameTypeText );
       if ( val.entityTypeText === entityTypeText) {
         retVal.push(val.nameTypeText);
       }
@@ -66,12 +51,5 @@ export class EntityTypeNameTypeService {
     return retVal;
   }
 
-  getTestVar(): Array<string> {
-    return this.testVar ;
-  }
-
-  getEntityTypeNameTypeList(): Array<LegalEntityTypeNameType>{
-    return this.entityTypeNameTypeList;
-  }
 }
 
