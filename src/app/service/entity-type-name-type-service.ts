@@ -45,7 +45,7 @@ export class EntityTypeNameTypeService  {
     for ( const val of entityTypeNameTypeList){
    //  console.log( 'getEntityTypeNameTypes ' + val.nameTypeText );
       if ( val.entityTypeText === entityTypeText) {
-        retVal.push(val.nameTypeText);
+        retVal.push( val.nameTypeText );
       }
     }
     return retVal;

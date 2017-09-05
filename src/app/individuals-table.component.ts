@@ -1,9 +1,9 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {IndividualEntity} from './model/individual-entity';
 import {Page} from './model/page';
-import {IndividualEntityService} from './service/individual-entity-service';
-import { ActivatedRoute } from '@angular/router';
+import {CorporateEntityService} from './service/corporate-entity-service';
+import {ActivatedRoute} from '@angular/router';
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
+import {TableColumnToDataColumnMap} from './model/table-column-to-data-column-map';
 
 @Component({
   selector: 'app-individuals-table',
@@ -14,42 +14,35 @@ import {EntityTypeNameTypeService} from './service/entity-type-name-type-service
 export class IndividualsTableComponent implements OnInit {
 
   private page = new Page();
-  private rows = new Array<IndividualEntity>();
   private columns = new Array<Object>();
+  private rows = new Array<Object>();
+  private columnMap:  Array<TableColumnToDataColumnMap> =  [new TableColumnToDataColumnMap('first', 'First'),
+    new TableColumnToDataColumnMap('last', 'Last'),  new TableColumnToDataColumnMap('middle', 'Middle'),
+    new TableColumnToDataColumnMap('title', 'Title')];
 
-    constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService,
-                private individualEntityService: IndividualEntityService ) {
+
+  constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService,
+                private corporateEntityService: CorporateEntityService ) {
       this.page.pageNumber = 0;
-      this.page.size = 20;
+      this.page.size = 5;
 
       this.activatedRoute.data
         .subscribe( (data) => {
           for ( const k of this.entityTypeNameTypeService.getEntityTypeNameTypes( data['columnData'], 'Individual')){
-            this.columns.push({name: k});
+            this.columns.push({name: k });
           }
-          this.columns.push({name: 'Address Type'});
-          this.columns.push({name: 'Street'});
-          this.columns.push({name: 'City'});
-          this.columns.push({name: 'State'});
-          this.columns.push({name: 'Zip Code'});
         });
-    };
+    }
 
 
   ngOnInit() {
     this.setPage({ offset: 0 });
+    console.log( 'Init IndividualsTableComponent');
   }
 
   setPage(pageInfo) {
-    console.log( 'Init IndividualsTableComponent');
-
     this.page.pageNumber = pageInfo.offset;
-
-
-    if ( this.rows.length === 0 ) {
-      this.individualEntityService.getData(this.page).then(  retVal => { this.rows = retVal;
-      } );
-    }
+    this.corporateEntityService.getData(this.page, this.columnMap, 'Individual').then(  retVal => { this.rows = retVal; } );
   }
 
 }

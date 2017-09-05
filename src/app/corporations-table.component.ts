@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {CorporateEntity} from './model/corporate-entity';
 import {Page} from './model/page';
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 import {CorporateEntityService} from './service/corporate-entity-service';
+import {TableColumnToDataColumnMap} from './model/table-column-to-data-column-map';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,43 +12,37 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './legal-entities-table.component.html',
   styleUrls: ['./legal-entities-table.component.scss']
 })
+
+
 export class CorporationsTableComponent implements OnInit {
 
   private page = new Page();
-  private rows = new Array<CorporateEntity>();
+  private rows = new Array<Object>();
   private columns = new Array<Object>();
+  private columnMap:  Array<TableColumnToDataColumnMap> =  [new TableColumnToDataColumnMap('organizationName', 'Organization Name')];
+
 
   constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService, private corporateEntityService: CorporateEntityService ) {
     this.page.pageNumber = 0;
-    this.page.size = 20;
+    this.page.size = 5;
 
     this.activatedRoute.data
       .subscribe( (data) => {
         for ( const k of this.entityTypeNameTypeService.getEntityTypeNameTypes( data['columnData'], 'Corporation')){
-          this.columns.push({name: k});
+          this.columns.push({name: k });
         }
-        this.columns.push({name: 'Address Type'});
-        this.columns.push({name: 'Street'});
-        this.columns.push({name: 'City'});
-        this.columns.push({name: 'State'});
-        this.columns.push({name: 'Zip Code'});
       });
   }
 
   ngOnInit() {
      this.setPage({ offset: 0 });
+    console.log( 'Init CorporationsTableComponent');
   }
 
 
   setPage(pageInfo) {
-    console.log( 'Init CorporationsTableComponent');
-
     this.page.pageNumber = pageInfo.offset;
-    if ( this.rows.length === 0 ) {
-      this.corporateEntityService.getData(this.page).then(  retVal => { this.rows = retVal;
-      } );
-    }
-
+    this.corporateEntityService.getData(this.page, this.columnMap, 'Corporation').then(  retVal => { this.rows = retVal; } );
   }
 
 }

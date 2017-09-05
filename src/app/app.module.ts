@@ -45,7 +45,7 @@ const appRoutes: Routes = [
       }
     ),
   ],
-  providers: [EntityTypeNameTypeService, CorporateEntityService, IndividualEntityService, LegalEntityTypeNameTypeResolver],
+  providers: [EntityTypeNameTypeService, CorporateEntityService, LegalEntityTypeNameTypeResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
