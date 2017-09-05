@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Page} from './model/page';
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
-import {CorporateEntityService} from './service/corporate-entity-service';
+import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {TableColumnToDataColumnMap} from './model/table-column-to-data-column-map';
 
 import { ActivatedRoute } from '@angular/router';
@@ -22,7 +22,7 @@ export class CorporationsTableComponent implements OnInit {
   private columnMap:  Array<TableColumnToDataColumnMap> =  [new TableColumnToDataColumnMap('organizationName', 'Organization Name')];
 
 
-  constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService, private corporateEntityService: CorporateEntityService ) {
+  constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService, private corporateEntityService: LegalEntityLoaderService ) {
     this.page.pageNumber = 0;
     this.page.size = 5;
 

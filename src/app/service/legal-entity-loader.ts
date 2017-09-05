@@ -8,7 +8,7 @@ import {TableColumnToDataColumnMap} from '../model/table-column-to-data-column-m
 
 
 @Injectable()
-export class CorporateEntityService {
+export class LegalEntityLoaderService {
 
   private baseUrl = '//localhost:8080/murun/fict/entities?';
 

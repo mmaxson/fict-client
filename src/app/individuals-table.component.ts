@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Page} from './model/page';
-import {CorporateEntityService} from './service/corporate-entity-service';
+import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {ActivatedRoute} from '@angular/router';
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 import {TableColumnToDataColumnMap} from './model/table-column-to-data-column-map';
@@ -22,7 +22,7 @@ export class IndividualsTableComponent implements OnInit {
 
 
   constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService,
-                private corporateEntityService: CorporateEntityService ) {
+                private corporateEntityService: LegalEntityLoaderService ) {
       this.page.pageNumber = 0;
       this.page.size = 5;
 

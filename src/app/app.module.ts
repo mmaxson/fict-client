@@ -9,10 +9,9 @@ import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {HttpClientModule} from '@angular/common/http';
 import {CorporationsTableComponent} from './corporations-table.component';
 import {IndividualsTableComponent} from './individuals-table.component';
-// import {LegalEntitiesTableComponent} from './legal-entities-table.component.tsxxx';
+
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
-import {CorporateEntityService} from './service/corporate-entity-service';
-import {IndividualEntityService} from './service/individual-entity-service';
+import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name-type-resolver';
 
 const appRoutes: Routes = [
@@ -45,7 +44,7 @@ const appRoutes: Routes = [
       }
     ),
   ],
-  providers: [EntityTypeNameTypeService, CorporateEntityService, LegalEntityTypeNameTypeResolver],
+  providers: [EntityTypeNameTypeService, LegalEntityLoaderService, LegalEntityTypeNameTypeResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
