@@ -19,20 +19,14 @@ const appRoutes: Routes = [
   { path: 'corporations',
     component: LegalEntitiesTableComponent,
     data: {entityType: 'Corporation',
-           columnMap: [new TableColumnToDataColumnMap('organizationName', 'Organization Name')]
           },
     resolve: {
       columnData: LegalEntityTypeNameTypeResolver,
-
-      // corporations: CorporateEntityResolver
       }
     },
   { path: 'individuals',
     component: LegalEntitiesTableComponent,
     data: {entityType: 'Individual',
-           columnMap:   [new TableColumnToDataColumnMap('first', 'First'),
-                         new TableColumnToDataColumnMap('last', 'Last'),  new TableColumnToDataColumnMap('middle', 'Middle'),
-                         new TableColumnToDataColumnMap('title', 'Title')]
            },
     resolve: {
       columnData: LegalEntityTypeNameTypeResolver,

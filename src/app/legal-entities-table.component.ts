@@ -2,7 +2,6 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Page} from './model/page';
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 import {LegalEntityLoaderService} from './service/legal-entity-loader';
-import {TableColumnToDataColumnMap} from './model/table-column-to-data-column-map';
 
 import { ActivatedRoute } from '@angular/router';
 
@@ -20,8 +19,6 @@ export class LegalEntitiesTableComponent implements OnInit {
   private page = new Page();
   private rows = new Array<Object>();
   private columns = new Array<Object>();
-  private columnMap:  Array<TableColumnToDataColumnMap> ;
-
 
   constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService, private corporateEntityService: LegalEntityLoaderService ) {
     this.page.pageNumber = 0;
@@ -32,7 +29,6 @@ export class LegalEntitiesTableComponent implements OnInit {
         for ( const k of this.entityTypeNameTypeService.getEntityTypeNameTypes( data['columnData'], data['entityType'])){
           this.columns.push({name: k });
           this.entityType =  data['entityType'];
-          this.columnMap = data['columnMap'];
         }
       });
   }
@@ -45,7 +41,7 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.corporateEntityService.getData(this.page, this.columnMap, this.entityType).then(  retVal => { this.rows = retVal; } );
+    this.corporateEntityService.getData(this.page, this.columns, this.entityType).then(  retVal => { this.rows = retVal; } );
   }
 
 }

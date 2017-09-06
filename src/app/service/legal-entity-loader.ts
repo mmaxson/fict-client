@@ -3,9 +3,6 @@ import {Injectable} from '@angular/core';
 import {Page} from '../model/page';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/Rx';
-import {TableColumnToDataColumnMap} from '../model/table-column-to-data-column-map';
-
-
 
 @Injectable()
 export class LegalEntityLoaderService {
@@ -16,10 +13,7 @@ export class LegalEntityLoaderService {
   constructor(private http: HttpClient) {}
 
 
-  getData(page: Page, columnMap: Array<TableColumnToDataColumnMap>, entityType: string): Promise<Array<Object>> {
-    console.log('getData...........................');
-
-
+  getData(page: Page, columns: Array<Object>, entityType: string): Promise<Array<Object>> {
     const promise = new Promise((resolve, reject) => {
 
       this.http.get<Array<string>>(this.constructUrl(page, entityType)).toPromise().then(
@@ -32,10 +26,11 @@ export class LegalEntityLoaderService {
 
             const row = new Object();
             if (response['content'][i].entityNames.length > 0) {
-              for (let j = 0; j < columnMap.length; j++) {
-                for (let k = 0; k < columnMap.length; k++) {
-                  if ((response['content'][i].entityNames[k]) && columnMap[j].dataColumn === response['content'][i].entityNames[k].nameType.nameTypeText) {
-                    row[columnMap[j].tableColumnTitle] = response['content'][i].entityNames[k].name;
+              for (let j = 0; j < columns.length; j++) {
+                for (let k = 0; k < columns.length; k++) {
+                  if ((response['content'][i].entityNames[k])
+                    && columns[j]['name'] === response['content'][i].entityNames[k].nameType.nameTypeText) {
+                    row[this.getTableColumnTitle(columns[j]['name'])] = response['content'][i].entityNames[k].name;
                     break;
                   }
                 }
@@ -45,20 +40,25 @@ export class LegalEntityLoaderService {
           }
           page.totalElements = response['totalElements'];
           page.totalPages = response['totalPages'];
-          //    console.log(' page.totalPages ' +  page.totalPages);
-          //    console.log(' page.totalElements ' + page.totalElements);
-          //    console.log(' page.pageSize ' + page.size);
           resolve(rows);
-
         });
     });
 
     return promise;
   }
 
-
   private constructUrl(  page: Page, entityType: string ): string {
     return  this.baseUrl + 'entity_type=' + entityType + '&page=' + page.pageNumber + '&' + 'size=' + page.size ;
+  }
+
+  private getTableColumnTitle(dataColumnTitle: string): string {
+      let retVal = '';
+      for (let i = 0; i < dataColumnTitle.length; i++) {
+        if ( dataColumnTitle.charAt(i) !== ' ') {
+          retVal = retVal + dataColumnTitle.charAt(i);
+        }
+      }
+    return retVal.charAt(0).toLowerCase() + retVal.substring(1);
   }
 }
 
