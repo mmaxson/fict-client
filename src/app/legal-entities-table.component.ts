@@ -14,12 +14,13 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 
-export class CorporationsTableComponent implements OnInit {
+export class LegalEntitiesTableComponent implements OnInit {
 
+  private entityType: string;
   private page = new Page();
   private rows = new Array<Object>();
   private columns = new Array<Object>();
-  private columnMap:  Array<TableColumnToDataColumnMap> =  [new TableColumnToDataColumnMap('organizationName', 'Organization Name')];
+  private columnMap:  Array<TableColumnToDataColumnMap> ;
 
 
   constructor(private activatedRoute: ActivatedRoute, private entityTypeNameTypeService: EntityTypeNameTypeService, private corporateEntityService: LegalEntityLoaderService ) {
@@ -28,21 +29,23 @@ export class CorporationsTableComponent implements OnInit {
 
     this.activatedRoute.data
       .subscribe( (data) => {
-        for ( const k of this.entityTypeNameTypeService.getEntityTypeNameTypes( data['columnData'], 'Corporation')){
+        for ( const k of this.entityTypeNameTypeService.getEntityTypeNameTypes( data['columnData'], data['entityType'])){
           this.columns.push({name: k });
+          this.entityType =  data['entityType'];
+          this.columnMap = data['columnMap'];
         }
       });
   }
 
   ngOnInit() {
      this.setPage({ offset: 0 });
-    console.log( 'Init CorporationsTableComponent');
+     console.log( 'Init ' + this.entityType );
   }
 
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.corporateEntityService.getData(this.page, this.columnMap, 'Corporation').then(  retVal => { this.rows = retVal; } );
+    this.corporateEntityService.getData(this.page, this.columnMap, this.entityType).then(  retVal => { this.rows = retVal; } );
   }
 
 }

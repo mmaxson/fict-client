@@ -7,24 +7,36 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {HttpClientModule} from '@angular/common/http';
-import {CorporationsTableComponent} from './corporations-table.component';
-import {IndividualsTableComponent} from './individuals-table.component';
+import {LegalEntitiesTableComponent} from './legal-entities-table.component';
 
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name-type-resolver';
+import {TableColumnToDataColumnMap} from './model/table-column-to-data-column-map';
+
 
 const appRoutes: Routes = [
   { path: 'corporations',
-    component: CorporationsTableComponent,
+    component: LegalEntitiesTableComponent,
+    data: {entityType: 'Corporation',
+           columnMap: [new TableColumnToDataColumnMap('organizationName', 'Organization Name')]
+          },
     resolve: {
-      columnData: LegalEntityTypeNameTypeResolver
+      columnData: LegalEntityTypeNameTypeResolver,
+
       // corporations: CorporateEntityResolver
-    }
+      }
     },
   { path: 'individuals',
-    component: IndividualsTableComponent,
-    resolve: { columnData: LegalEntityTypeNameTypeResolver }
+    component: LegalEntitiesTableComponent,
+    data: {entityType: 'Individual',
+           columnMap:   [new TableColumnToDataColumnMap('first', 'First'),
+                         new TableColumnToDataColumnMap('last', 'Last'),  new TableColumnToDataColumnMap('middle', 'Middle'),
+                         new TableColumnToDataColumnMap('title', 'Title')]
+           },
+    resolve: {
+      columnData: LegalEntityTypeNameTypeResolver,
+      }
     },
   { path: '', redirectTo: '/corporations', pathMatch: 'full'}
 ];
@@ -32,7 +44,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    CorporationsTableComponent, IndividualsTableComponent
+    LegalEntitiesTableComponent
   ],
 
   imports: [
