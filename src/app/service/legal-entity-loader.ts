@@ -35,6 +35,7 @@ export class LegalEntityLoaderService {
                   }
                 }
               }
+              row['legalEntityId'] = response['content'][i].legalEntityId;
             }
             rows.push(row);
           }

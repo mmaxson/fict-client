@@ -11,8 +11,9 @@ import {LegalEntitiesTableComponent} from './legal-entities-table.component';
 
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 import {LegalEntityLoaderService} from './service/legal-entity-loader';
+import {EntityAddressLoaderService} from './service/entity-address-loader';
 import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name-type-resolver';
-import {TableColumnToDataColumnMap} from './model/table-column-to-data-column-map';
+
 
 
 const appRoutes: Routes = [
@@ -50,7 +51,7 @@ const appRoutes: Routes = [
       }
     ),
   ],
-  providers: [EntityTypeNameTypeService, LegalEntityLoaderService, LegalEntityTypeNameTypeResolver],
+  providers: [EntityTypeNameTypeService, LegalEntityLoaderService, EntityAddressLoaderService, LegalEntityTypeNameTypeResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

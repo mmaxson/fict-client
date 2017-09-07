@@ -11,9 +11,6 @@ export class EntityTypeNameTypeService  {
   private url = '//localhost:8080/murun/fict/entityTypeNameTypes';
 
 
-
-
-
   constructor(private http: HttpClient) {
   }
 
