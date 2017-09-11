@@ -1,52 +1,75 @@
 <div>
-<div style='float:left;width:40%'>
 
-  <ngx-datatable
-    class='material'
-    [rows]='rows'
-    [columns]='columns'
-    [columnMode]="'force'"
-    [headerHeight]="50"
-    [footerHeight]="50"
-    [rowHeight]="'auto'"
-    [externalPaging]="true"
-    [count]="page.totalElements"
-    [offset]="page.pageNumber"
-    [limit]="page.size"
-    [selected]="selected"
-    [selectionType]="'single'"
-    (activate)='onActivate($event)'
-    (page)='setPage($event)'>
-  </ngx-datatable>
-</div>
-<div>
-  <ngx-datatable
-    class="material address-table"
-    [rows]="addressRows"
-    [columns]="addressColumns"
-    [columnMode]="'force'"
-    [headerHeight]="50"
-    [footerHeight]="50"
-    [rowHeight]="'auto'"
-    [externalPaging]="true"
-    [count]="addressPage.totalElements"
-    [offset]="addressPage.pageNumber"
+  <div style='float:left;width:40%'>
 
-    (page)='setAddressPage($event)'>
-  </ngx-datatable>
-</div>
+    <ngx-datatable
+      class='material'
+      [rows]='rows'
+      [columns]='columns'
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [externalPaging]="true"
+      [count]="page.totalElements"
+      [offset]="page.pageNumber"
+      [limit]="page.size"
+      [selected]="selected"
+      [selectionType]="'single'"
+      (activate)='onActivate($event)'
+      (page)='setPage($event)'>
+    </ngx-datatable>
+  </div>
+  <div>
+
+    <div class="address-table address-table-button-row-button-row">
+      <button md-mini-fab color="primary" [disabled]="disabled" (click)="add()">Add</button>
+      <button md-mini-fab color="primary" [disabled]="disabled" (click)="update()">Edit</button>
+      <button md-mini-fab color="primary" [disabled]="disabled" (click)="delete()">Remove</button>
+    </div>
+
+    <ngx-datatable
+      class="material address-table"
+      [rows]="addressRows"
+
+      [columnMode]="'force'"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [externalPaging]="true"
+      [count]="addressPage.totalElements"
+      [offset]="addressPage.pageNumber"
+      [selected]="selectedAddress"
+      [selectionType]="'checkbox'"
+      (activate)="onActivateAddress($event)"
+      (page)='setAddressPage($event)'>
+      <ngx-datatable-column
+        [sortable]="false"
+        [canAutoResize]="false"
+        [draggable]="false"
+        [resizeable]="false"
+        [headerCheckboxable]="false"
+        [checkboxable]="true">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Address"></ngx-datatable-column>
+      <ngx-datatable-column name="Street"></ngx-datatable-column>
+      <ngx-datatable-column name="City"></ngx-datatable-column>
+      <ngx-datatable-column name="State"></ngx-datatable-column>
+      <ngx-datatable-column name="Zip Code"></ngx-datatable-column>
+    </ngx-datatable>
+  </div>
 
 
+  <!--<div class='selected-column'>
+    <h4>Selections</h4>
+    <ul>
+      <li *ngFor='let sel of selected'>
+        {{sel.name}}
+      </li>
+      <li *ngIf="!selected.length">No Selections</li>
+    </ul>
+  </div>-->
 
-
-<!--<div class='selected-column'>
-  <h4>Selections</h4>
-  <ul>
-    <li *ngFor='let sel of selected'>
-      {{sel.name}}
-    </li>
-    <li *ngIf="!selected.length">No Selections</li>
-  </ul>
-</div>-->
+  <router-outlet></router-outlet>
 
 </div>

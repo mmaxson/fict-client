@@ -1,5 +1,7 @@
 
 import {BrowserModule} from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {FormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {AppMaterialModule} from './app-material.module';
 import {AppComponent} from './app.component';
@@ -13,8 +15,8 @@ import {EntityTypeNameTypeService} from './service/entity-type-name-type-service
 import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {EntityAddressLoaderService} from './service/entity-address-loader';
 import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name-type-resolver';
-
-
+import {EntityAddressFormComponent} from './entity-address-form.component';
+import {MyDialogComponent} from './my-dialog.component';
 
 const appRoutes: Routes = [
   { path: 'corporations',
@@ -36,14 +38,18 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/corporations', pathMatch: 'full'}
 ];
 
+
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
-    LegalEntitiesTableComponent
+    LegalEntitiesTableComponent, EntityAddressFormComponent
   ],
 
   imports: [
-    BrowserModule, HttpClientModule, NgxDatatableModule, AppMaterialModule,
+    BrowserModule, NoopAnimationsModule, FormsModule, HttpClientModule, NgxDatatableModule, AppMaterialModule,
     RouterModule.forRoot(
       appRoutes,
       {
@@ -51,6 +57,10 @@ const appRoutes: Routes = [
       }
     ),
   ],
+  entryComponents: [
+    EntityAddressFormComponent
+  ],
+
   providers: [EntityTypeNameTypeService, LegalEntityLoaderService, EntityAddressLoaderService, LegalEntityTypeNameTypeResolver],
   bootstrap: [AppComponent]
 })

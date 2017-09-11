@@ -1,0 +1,45 @@
+<h1 md-dialog-title>Address Form</h1>
+<div md-dialog-content class="address-form">
+
+  <form class="formwidth" (ngSubmit)="onSubmit()" EntityAddressFormComponent="ngForm">
+
+      <md-select placeholder="Address Type" [(ngModel)]="selectedAddressTypeId" name="addressType">
+        <md-option *ngFor="let addressType of addressTypes" [value]="addressType.addressTypeId">{{addressType.addressTypeText}}</md-option>
+      </md-select>
+
+    <md-form-field class="address-form-full-width">
+      <textarea mdInput placeholder="Street" [(ngModel)]="address.street" name="street"></textarea>
+    </md-form-field>
+
+    <table style="width: 100%" cellspacing="0"><tr>
+      <td>
+        <md-form-field class="address-form-full-width">
+          <input mdInput placeholder="City" [(ngModel)]="address.city" name="city">
+        </md-form-field>
+      </td>
+      <td>
+        <md-form-field class="address-form-full-width">
+          <input mdInput placeholder="State" maxLength="2" [(ngModel)]="address.state" name="state">
+        </md-form-field>
+      </td>
+      <td>
+        <md-form-field class="address-form-full-width">
+          <input mdInput #postalCode maxLength="5" placeholder="Postal Code" [(ngModel)]="address.zipCode"
+                 pattern="[0-9]{5}" name="zipCode">
+          <!--<md-hint align="end">
+            <md-icon>mode_edit</md-icon>
+            <span aria-live="polite">{{address.zipCode.length}} / 5</span>
+          </md-hint>-->
+        </md-form-field>
+      </td>
+    </tr></table>
+  </form>
+
+</div>
+
+
+<div md-dialog-actions>
+  <button type="submit" md-raised-button>Submit</button>
+  <button md-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+</div>
+

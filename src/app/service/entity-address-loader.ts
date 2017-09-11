@@ -26,13 +26,14 @@ export class EntityAddressLoaderService {
           for (let i = 0; i < end; i++) {
 
             const row = new Object();
+            row['entityAddressId'] = response['content'][i].entityAddressId;
             row['address'] = response['content'][i].addressType.addressTypeText;
             row['street'] = response['content'][i].address.street;
             row['city'] = response['content'][i].address.city;
             row['state'] = response['content'][i].address.state;
             row['zipCode'] = response['content'][i].address.zipCode;
 
-            //console.log(row);
+           // console.log(row);
             rows.push(row);
           }
           page.totalElements = response['totalElements'];

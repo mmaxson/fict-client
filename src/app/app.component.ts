@@ -13,12 +13,10 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private router: Router, private entityTypeNameTypeService: EntityTypeNameTypeService ) {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
-    console.log('app init');
-    // this.entityTypeNameTypeService.loadEntityTypeNameTypeList( this.entityTypeNameTypeService.getEntityTypeNameTypeList() );
   }
 
 }
