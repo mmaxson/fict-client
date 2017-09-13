@@ -27,6 +27,7 @@ export class EntityAddressLoaderService {
 
             const row = new Object();
             row['entityAddressId'] = response['content'][i].entityAddressId;
+            row['addressTypeId'] = response['content'][i].addressType.addressTypeId;
             row['address'] = response['content'][i].addressType.addressTypeText;
             row['street'] = response['content'][i].address.street;
             row['city'] = response['content'][i].address.city;

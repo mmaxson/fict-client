@@ -9,7 +9,10 @@ import {ActivatedRoute} from '@angular/router';
 
 import {EntityAddressFormComponent} from './entity-address-form.component';
 import {MdDialogRef} from '@angular/material';
+
+import {EntityAddress} from './model/entity-address';
 import {AddressType} from './model/address-type';
+
 
 
 
@@ -23,13 +26,7 @@ import {AddressType} from './model/address-type';
 
 export class LegalEntitiesTableComponent implements OnInit {
 
-  private addressTypes: Array<AddressType> = [new AddressType(1, 'Residence'),
-    new AddressType(2, 'Work'), new AddressType(3, 'Mailing'), new AddressType(4, 'Branch'), new AddressType(5, 'Headquarters'),
-    new AddressType(6, 'Warehouse'), new AddressType(7, 'Divisional Headquarters')];
 
-  // private addressTypes: any = [{addressTypeId: 1, addressTypeText: 'Residence'},  {addressTypeId: 2, addressTypeText: 'Resince'}];
-
-  private selectedAddressTypeId: number;
   private entityType: string;
   private page = new Page();
   private rows = new Array<Object>();
@@ -43,7 +40,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   private selected = [];
   private selectedAddress = [];
   private currentLegalEntityId: number;
-  private currentAddressId: number;
+  private currentAddress: EntityAddress;
 //  private animal : string;
 
   constructor(private activatedRoute: ActivatedRoute, public dialog: MdDialog, private entityTypeNameTypeService: EntityTypeNameTypeService,
@@ -77,7 +74,8 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   onActivateAddress(event) {
      console.log('Activate Address Event', event);
-     this.currentAddressId =  event.row['entityAddressId'];
+     this.currentAddress = new EntityAddress ( event.row['entityAddressId'], new AddressType( event.row['addressTypeId'], event.row['address']),
+                           event.row['street'], event.row['city'], event.row['state'], event.row['zipCode'] );
      this.disabled = false;
   //  this.setAddressPage({ offset: 0 });
   }
@@ -96,21 +94,18 @@ export class LegalEntitiesTableComponent implements OnInit {
 
 
   update() {
-    console.log('openDialog');
-    this.disabled = true;
+
     const dialogRef: MdDialogRef<EntityAddressFormComponent> = this.dialog.open(EntityAddressFormComponent,
       {
         disableClose: false,
         height: '600px',
         width: '800px',
-      //  data: {  animal: this.animal }
+        data: { entityAddress: this.currentAddress }
       } );
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-     // this.animal = result;
-    });
-
+    dialogRef.afterClosed().subscribe();
+    this.disabled = true;
+    this.selectedAddress = [];
   }
 
   private add() {

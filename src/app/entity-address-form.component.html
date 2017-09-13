@@ -1,45 +1,60 @@
 <h1 md-dialog-title>Address Form</h1>
 <div md-dialog-content class="address-form">
 
-  <form class="formwidth" (ngSubmit)="onSubmit()" EntityAddressFormComponent="ngForm">
+  <form (ngSubmit)="onSubmit(addressForm)"  [formGroup]="addressForm" novalidate>
 
-      <md-select placeholder="Address Type" [(ngModel)]="selectedAddressTypeId" name="addressType">
+      <md-select placeholder="Address Type"  formControlName="addressType">
         <md-option *ngFor="let addressType of addressTypes" [value]="addressType.addressTypeId">{{addressType.addressTypeText}}</md-option>
       </md-select>
 
     <md-form-field class="address-form-full-width">
-      <textarea mdInput placeholder="Street" [(ngModel)]="address.street" name="street"></textarea>
+      <input mdInput placeholder="Street"  formControlName= "street">
+      <md-error *ngIf="addressForm.get('street').hasError('required')">
+        Street is <strong>required</strong>
+      </md-error>
     </md-form-field>
 
     <table style="width: 100%" cellspacing="0"><tr>
       <td>
         <md-form-field class="address-form-full-width">
-          <input mdInput placeholder="City" [(ngModel)]="address.city" name="city">
+          <input mdInput placeholder="City" formControlName="city">
+          <md-error *ngIf="addressForm.get('city').hasError('required')">
+             City is <strong>required</strong>
+          </md-error>
         </md-form-field>
       </td>
       <td>
-        <md-form-field class="address-form-full-width">
-          <input mdInput placeholder="State" maxLength="2" [(ngModel)]="address.state" name="state">
-        </md-form-field>
+        <md-select placeholder="State" name="state"  formControlName="state">
+          <md-option *ngFor="let state of states" [value]="state">{{state}}</md-option>
+        </md-select>
+        <md-error *ngIf="addressForm.get('state').hasError('required')">
+          State is <strong>required</strong>
+        </md-error>
       </td>
       <td>
         <md-form-field class="address-form-full-width">
-          <input mdInput #postalCode maxLength="5" placeholder="Postal Code" [(ngModel)]="address.zipCode"
+          <input mdInput #postalCode maxLength="5" placeholder="Postal Code" formControlName="zipCode"
                  pattern="[0-9]{5}" name="zipCode">
           <!--<md-hint align="end">
             <md-icon>mode_edit</md-icon>
             <span aria-live="polite">{{address.zipCode.length}} / 5</span>
           </md-hint>-->
+          <md-error *ngIf="addressForm.get('zipCode').hasError('required')">
+            Postal Code is <strong>required</strong>
+          </md-error>
         </md-form-field>
       </td>
     </tr></table>
+
+    <p>Form value: {{ addressForm.value | json }}</p>
+    <p>Form status: {{ addressForm.status | json }}</p>
   </form>
 
 </div>
 
 
 <div md-dialog-actions>
-  <button type="submit" md-raised-button>Submit</button>
+  <button type="submit" md-raised-button [disabled]="addressForm.invalid" (click)="onSubmit()">Submit</button>
   <button md-button (click)="onNoClick()" tabindex="-1">Cancel</button>
 </div>
 
