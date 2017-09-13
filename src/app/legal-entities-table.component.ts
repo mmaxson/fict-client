@@ -26,7 +26,7 @@ import {AddressType} from './model/address-type';
 
 export class LegalEntitiesTableComponent implements OnInit {
 
-
+  private addressTypes: Array<AddressType> ;
   private entityType: string;
   private page = new Page();
   private rows = new Array<Object>();
@@ -52,10 +52,11 @@ export class LegalEntitiesTableComponent implements OnInit {
     this.addressPage.size = 5;
 
     this.activatedRoute.data
-      .subscribe( (data) => {
-        for ( const k of this.entityTypeNameTypeService.getEntityTypeNameTypes( data['columnData'], data['entityType'])){
+      .subscribe( (routeData) => {
+        for ( const k of this.entityTypeNameTypeService.getEntityTypeNameTypes( routeData['columnData'], routeData['entityType'])){
           this.columns.push({name: k });
-          this.entityType =  data['entityType'];
+          this.entityType =  routeData['entityType'];
+          this.addressTypes = routeData['addressTypes'];
         }
       });
   }
@@ -89,7 +90,7 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   setAddressPage(pageInfo) {
     this.addressPage.pageNumber = pageInfo.offset;
-    this.entityAddressLoaderService.getData(this.addressPage, this.currentLegalEntityId ).then(  retVal => { this.addressRows = retVal; } );
+    this.entityAddressLoaderService.getData(this.addressPage, this.currentLegalEntityId, this.addressTypes ).then(  retVal => { this.addressRows = retVal; } );
   }
 
 

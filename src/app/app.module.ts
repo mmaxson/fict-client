@@ -16,12 +16,16 @@ import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {EntityAddressLoaderService} from './service/entity-address-loader';
 import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name-type-resolver';
 import {EntityAddressFormComponent} from './entity-address-form.component';
+import {AddressType} from './model/address-type';
 
+const addressTypes: Array<AddressType> = [new AddressType(1, 'Residence'),
+  new AddressType(2, 'Work'), new AddressType(3, 'Mailing'), new AddressType(4, 'Branch'), new AddressType(5, 'Headquarters'),
+  new AddressType(6, 'Warehouse'), new AddressType(7, 'Divisional Headquarters')];
 
 const appRoutes: Routes = [
   { path: 'corporations',
     component: LegalEntitiesTableComponent,
-    data: {entityType: 'Corporation',
+    data: {entityType: 'Corporation', addressTypes: addressTypes
           },
     resolve: {
       columnData: LegalEntityTypeNameTypeResolver,
@@ -29,7 +33,7 @@ const appRoutes: Routes = [
     },
   { path: 'individuals',
     component: LegalEntitiesTableComponent,
-    data: {entityType: 'Individual',
+    data: {entityType: 'Individual', addressTypes: addressTypes
            },
     resolve: {
       columnData: LegalEntityTypeNameTypeResolver,

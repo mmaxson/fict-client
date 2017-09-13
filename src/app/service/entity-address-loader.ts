@@ -1,6 +1,7 @@
 
 import {Injectable} from '@angular/core';
 import {Page} from '../model/page';
+import {AddressType} from '../model/address-type';
 import {HttpClient} from '@angular/common/http';
 import 'rxjs/Rx';
 
@@ -13,7 +14,7 @@ export class EntityAddressLoaderService {
   constructor(private http: HttpClient) {}
 
 
-  getData(page: Page, legalEntityId: number): Promise<Array<Object>> {
+  getData(page: Page, legalEntityId: number, addressTypes: Array<AddressType>): Promise<Array<Object>> {
     const promise = new Promise((resolve, reject) => {
 
       console.log('EntityAddressLoaderService:::::::::::' + legalEntityId );
@@ -28,7 +29,8 @@ export class EntityAddressLoaderService {
             const row = new Object();
             row['entityAddressId'] = response['content'][i].entityAddressId;
             row['addressTypeId'] = response['content'][i].addressType.addressTypeId;
-            row['address'] = response['content'][i].addressType.addressTypeText;
+           // row['address'] = response['content'][i].addressType.addressTypeText;
+            row['address'] = this.getAddressTypeText(response['content'][i].addressType.addressTypeId, addressTypes);
             row['street'] = response['content'][i].address.street;
             row['city'] = response['content'][i].address.city;
             row['state'] = response['content'][i].address.state;
@@ -48,6 +50,15 @@ export class EntityAddressLoaderService {
 
   private constructUrl(  page: Page, legalEntityId: number ): string {
     return  this.baseUrl + legalEntityId + '?page=' + page.pageNumber + '&' + 'size=' + page.size;
+  }
+
+  private getAddressTypeText( id: number, addressTypes: Array<AddressType> ): string {
+    for( const i of addressTypes){
+      if ( i.addressTypeId === id ){
+        return i.addressTypeText;
+      }
+    }
+    return 'address type text not found.';
   }
 
 }

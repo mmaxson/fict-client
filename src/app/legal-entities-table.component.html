@@ -40,7 +40,7 @@
       [count]="addressPage.totalElements"
       [offset]="addressPage.pageNumber"
       [selected]="selectedAddress"
-      [selectionType]="'checkbox'"
+      [selectionType]="'multi'"
       (activate)="onActivateAddress($event)"
       (page)='setAddressPage($event)'>
       <ngx-datatable-column
