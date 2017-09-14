@@ -1,10 +1,12 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
 
-import {EntityAddress} from './model/entity-address';
+import {EntityAddressSaverService} from './service/entity-address-saver';
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import {AddressType} from './model/address-type';
-import {FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {EntityAddress} from './model/entity-address';
+import {Address} from './model/address';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'app-entity-address-form',
@@ -27,36 +29,32 @@ export class EntityAddressFormComponent implements OnInit {
   //  name: new FormControl()
   });
 
-  constructor( private activatedRoute: ActivatedRoute, private fb: FormBuilder, public dialogRef: MdDialogRef<EntityAddressFormComponent>,
-                                 @Inject(MD_DIALOG_DATA) public dialogData: any) {
+  constructor( private fb: FormBuilder, public dialogRef: MdDialogRef<EntityAddressFormComponent>,
+               @Inject(MD_DIALOG_DATA) public dialogData: any, private http: HttpClient,
+               private entityAddressSaverService: EntityAddressSaverService ) {
+    this.addressTypes = this.dialogData.addressTypes;
     this.createForm();
     this.populateForm();
-
-    this.activatedRoute.data
-      .subscribe( (routeData) => {
-        this.addressTypes = routeData['addressTypes'];
-      });
   }
 
 
   createForm() {
     this.addressForm = this.fb.group({
-      addressType: '',
+      addressType: ['', Validators.required ],
       street: ['', Validators.required ],
       city: ['', Validators.required ],
-      state: '',
+      state: ['', Validators.required ],
       zipCode: ['', Validators.required ],
     });
   }
 
   populateForm() {
-    console.log(this.dialogData.entityAddress.addressType.addressTypeId);
     this.addressForm.setValue({
       addressType: this.dialogData.entityAddress.addressType.addressTypeId,
-      street:  this.dialogData.entityAddress.street,
-      city: this.dialogData.entityAddress.city,
-      state: this.dialogData.entityAddress.state,
-      zipCode: this.dialogData.entityAddress.zipCode,
+      street:  this.dialogData.entityAddress.address.street,
+      city: this.dialogData.entityAddress.address.city,
+      state: this.dialogData.entityAddress.address.state,
+      zipCode: this.dialogData.entityAddress.address.zipCode,
     });
   }
 
@@ -71,7 +69,30 @@ export class EntityAddressFormComponent implements OnInit {
 
   onSubmit() {
     this.dialogRef.close();
-console.log('submitted.');
+
+    const entityAddressToBeSaved: EntityAddress = new EntityAddress( this.dialogData.entityAddress.entityAddressId,
+      new AddressType( this.addressForm.get('addressType').value,
+                       AddressType.getAddressTypeText( this.addressForm.get('addressType').value , this.addressTypes )),
+      new Address( this.dialogData.entityAddress.address.addressId, this.addressForm.get('street').value,
+                   this.addressForm.get('city').value, this.addressForm.get('state').value, this.addressForm.get('zipCode').value),
+      this.dialogData.entityAddress.legalEntityId);
+
+console.log(JSON.stringify(entityAddressToBeSaved));
+    // Content-Type: my-auth-token and Accept: application/json
+    this.http.put<Array<string>>('//localhost:8080/murun/fict/addresses/', JSON.stringify(entityAddressToBeSaved), {
+      headers: new HttpHeaders().set('Content-Type', 'application/json').set( 'Accept', 'application/json' ).set('charset', 'utf-8')  }
+
+  ).subscribe(
+      response => {
+      },
+    (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('An error occurred:', err.error.message);
+      } else {
+        console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+      }
+    });
+
   }
 
 }

@@ -29,8 +29,8 @@ export class EntityAddressLoaderService {
             const row = new Object();
             row['entityAddressId'] = response['content'][i].entityAddressId;
             row['addressTypeId'] = response['content'][i].addressType.addressTypeId;
-           // row['address'] = response['content'][i].addressType.addressTypeText;
-            row['address'] = this.getAddressTypeText(response['content'][i].addressType.addressTypeId, addressTypes);
+            row['address'] = AddressType.getAddressTypeText(response['content'][i].addressType.addressTypeId, addressTypes);
+            row['addressId'] = response['content'][i].address.addressId;
             row['street'] = response['content'][i].address.street;
             row['city'] = response['content'][i].address.city;
             row['state'] = response['content'][i].address.state;
@@ -52,14 +52,7 @@ export class EntityAddressLoaderService {
     return  this.baseUrl + legalEntityId + '?page=' + page.pageNumber + '&' + 'size=' + page.size;
   }
 
-  private getAddressTypeText( id: number, addressTypes: Array<AddressType> ): string {
-    for( const i of addressTypes){
-      if ( i.addressTypeId === id ){
-        return i.addressTypeText;
-      }
-    }
-    return 'address type text not found.';
-  }
+
 
 }
 

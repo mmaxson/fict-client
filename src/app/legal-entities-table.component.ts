@@ -12,6 +12,7 @@ import {MdDialogRef} from '@angular/material';
 
 import {EntityAddress} from './model/entity-address';
 import {AddressType} from './model/address-type';
+import {Address} from './model/address';
 
 
 
@@ -75,10 +76,16 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   onActivateAddress(event) {
      console.log('Activate Address Event', event);
-     this.currentAddress = new EntityAddress ( event.row['entityAddressId'], new AddressType( event.row['addressTypeId'], event.row['address']),
-                           event.row['street'], event.row['city'], event.row['state'], event.row['zipCode'] );
+     this.currentAddress = new EntityAddress ( event.row['entityAddressId'],
+           new AddressType( event.row['addressTypeId'], event.row['address']),
+           new Address( event.row['addressId'], event.row['street'], event.row['city'], event.row['state'], event.row['zipCode'] ),
+           this.currentLegalEntityId );
+     console.log('before dialog');
+    console.log(this.currentAddress);
      this.disabled = false;
-  //  this.setAddressPage({ offset: 0 });
+
+
+    //  this.setAddressPage({ offset: 0 });
   }
 
 
@@ -101,7 +108,7 @@ export class LegalEntitiesTableComponent implements OnInit {
         disableClose: false,
         height: '600px',
         width: '800px',
-        data: { entityAddress: this.currentAddress }
+        data: { entityAddress: this.currentAddress, addressTypes: this.addressTypes }
       } );
 
     dialogRef.afterClosed().subscribe();

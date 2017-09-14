@@ -1,50 +1,57 @@
 <h1 md-dialog-title>Address Form</h1>
 <div md-dialog-content class="address-form">
 
-  <form (ngSubmit)="onSubmit(addressForm)"  [formGroup]="addressForm" novalidate>
+  <form (ngSubmit)="onSubmit(addressForm)" [formGroup]="addressForm" novalidate>
 
-      <md-select placeholder="Address Type"  formControlName="addressType">
-        <md-option *ngFor="let addressType of addressTypes" [value]="addressType.addressTypeId">{{addressType.addressTypeText}}</md-option>
-      </md-select>
+    <md-select placeholder="Address Type" formControlName="addressType">
+      <md-option *ngFor="let addressType of addressTypes" [value]="addressType.addressTypeId">
+        {{addressType.addressTypeText}}
+      </md-option>
+    </md-select>
+    <md-error *ngIf="addressForm.get('addressType').hasError('required')">
+      Address Type is <strong>required</strong>
+    </md-error>
 
     <md-form-field class="address-form-full-width">
-      <input mdInput placeholder="Street"  formControlName= "street">
+      <input mdInput placeholder="Street" formControlName="street">
       <md-error *ngIf="addressForm.get('street').hasError('required')">
         Street is <strong>required</strong>
       </md-error>
     </md-form-field>
 
-    <table style="width: 100%" cellspacing="0"><tr>
-      <td>
-        <md-form-field class="address-form-full-width">
-          <input mdInput placeholder="City" formControlName="city">
-          <md-error *ngIf="addressForm.get('city').hasError('required')">
-             City is <strong>required</strong>
+    <table style="width: 100%" cellspacing="0">
+      <tr>
+        <td>
+          <md-form-field class="address-form-full-width">
+            <input mdInput placeholder="City" formControlName="city">
+            <md-error *ngIf="addressForm.get('city').hasError('required')">
+              City is <strong>required</strong>
+            </md-error>
+          </md-form-field>
+        </td>
+        <td>
+          <md-select placeholder="State" name="state" formControlName="state">
+            <md-option *ngFor="let state of states" [value]="state">{{state}}</md-option>
+          </md-select>
+          <md-error *ngIf="addressForm.get('state').hasError('required')">
+            State is <strong>required</strong>
           </md-error>
-        </md-form-field>
-      </td>
-      <td>
-        <md-select placeholder="State" name="state"  formControlName="state">
-          <md-option *ngFor="let state of states" [value]="state">{{state}}</md-option>
-        </md-select>
-        <md-error *ngIf="addressForm.get('state').hasError('required')">
-          State is <strong>required</strong>
-        </md-error>
-      </td>
-      <td>
-        <md-form-field class="address-form-full-width">
-          <input mdInput #postalCode maxLength="5" placeholder="Postal Code" formControlName="zipCode"
-                 pattern="[0-9]{5}" name="zipCode">
-          <!--<md-hint align="end">
-            <md-icon>mode_edit</md-icon>
-            <span aria-live="polite">{{address.zipCode.length}} / 5</span>
-          </md-hint>-->
-          <md-error *ngIf="addressForm.get('zipCode').hasError('required')">
-            Postal Code is <strong>required</strong>
-          </md-error>
-        </md-form-field>
-      </td>
-    </tr></table>
+        </td>
+        <td>
+          <md-form-field class="address-form-full-width">
+            <input mdInput #postalCode maxLength="5" placeholder="Postal Code" formControlName="zipCode"
+                   pattern="[0-9]{5}" name="zipCode">
+            <!--<md-hint align="end">
+              <md-icon>mode_edit</md-icon>
+              <span aria-live="polite">{{address.zipCode.length}} / 5</span>
+            </md-hint>-->
+            <md-error *ngIf="addressForm.get('zipCode').hasError('required')">
+              Postal Code is <strong>required</strong>
+            </md-error>
+          </md-form-field>
+        </td>
+      </tr>
+    </table>
 
     <p>Form value: {{ addressForm.value | json }}</p>
     <p>Form status: {{ addressForm.status | json }}</p>

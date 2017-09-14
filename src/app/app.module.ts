@@ -14,6 +14,7 @@ import {LegalEntitiesTableComponent} from './legal-entities-table.component';
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {EntityAddressLoaderService} from './service/entity-address-loader';
+import {EntityAddressSaverService} from './service/entity-address-saver';
 import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name-type-resolver';
 import {EntityAddressFormComponent} from './entity-address-form.component';
 import {AddressType} from './model/address-type';
@@ -65,7 +66,7 @@ const appRoutes: Routes = [
     EntityAddressFormComponent
   ],
 
-  providers: [EntityTypeNameTypeService, LegalEntityLoaderService, EntityAddressLoaderService, LegalEntityTypeNameTypeResolver],
+  providers: [EntityTypeNameTypeService, LegalEntityLoaderService, EntityAddressLoaderService, EntityAddressSaverService, LegalEntityTypeNameTypeResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
