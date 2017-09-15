@@ -1,12 +1,11 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 
-import {EntityAddressSaverService} from './service/entity-address-saver';
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import {AddressType} from './model/address-type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EntityAddress} from './model/entity-address';
-import {Address} from './model/address';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {EntityAddressDTO} from './dto/entity-address.dto';
+import {Address} from './model/address';
 
 @Component({
   selector: 'app-entity-address-form',
@@ -29,9 +28,10 @@ export class EntityAddressFormComponent implements OnInit {
   //  name: new FormControl()
   });
 
+
   constructor( private fb: FormBuilder, public dialogRef: MdDialogRef<EntityAddressFormComponent>,
-               @Inject(MD_DIALOG_DATA) public dialogData: any, private http: HttpClient,
-               private entityAddressSaverService: EntityAddressSaverService ) {
+               @Inject(MD_DIALOG_DATA) public dialogData: any, private http: HttpClient
+                ) {
     this.addressTypes = this.dialogData.addressTypes;
     this.createForm();
     this.populateForm();
@@ -68,22 +68,22 @@ export class EntityAddressFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close();
 
-    const entityAddressToBeSaved: EntityAddress = new EntityAddress( this.dialogData.entityAddress.entityAddressId,
-      new AddressType( this.addressForm.get('addressType').value,
-                       AddressType.getAddressTypeText( this.addressForm.get('addressType').value , this.addressTypes )),
-      new Address( this.dialogData.entityAddress.address.addressId, this.addressForm.get('street').value,
-                   this.addressForm.get('city').value, this.addressForm.get('state').value, this.addressForm.get('zipCode').value),
-      this.dialogData.entityAddress.legalEntityId);
 
-console.log(JSON.stringify(entityAddressToBeSaved));
-    // Content-Type: my-auth-token and Accept: application/json
+    const entityAddressToBeSaved: EntityAddressDTO = new EntityAddressDTO ( this.dialogData.entityAddress.entityAddressId,
+                                     this.addressForm.get('addressType').value,
+                                     new Address( this.dialogData.entityAddress.address.addressId,
+                                                this.addressForm.get('street').value, this.addressForm.get('city').value,
+                                                this.addressForm.get('state').value, this.addressForm.get('zipCode').value),
+                                      this.dialogData.entityAddress.legalEntityId );
+
+                                     console.log(JSON.stringify(entityAddressToBeSaved));
     this.http.put<Array<string>>('//localhost:8080/murun/fict/addresses/', JSON.stringify(entityAddressToBeSaved), {
       headers: new HttpHeaders().set('Content-Type', 'application/json').set( 'Accept', 'application/json' ).set('charset', 'utf-8')  }
 
   ).subscribe(
       response => {
+
       },
     (err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
@@ -93,6 +93,8 @@ console.log(JSON.stringify(entityAddressToBeSaved));
       }
     });
 
+    this.dialogRef.close(entityAddressToBeSaved);
   }
+
 
 }
