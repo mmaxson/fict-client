@@ -3,7 +3,16 @@ import {Address} from './address';
 
 export class EntityAddress {
 
-  constructor( public entityAddressId: number, public addressType: AddressType, public address: Address, public legalEntityId: number ) {
+  public legalEntityId: number;
+  public entityAddressId: number;
+  public addressType: AddressType;
+  public address: Address;
+
+  constructor( legalEntityId: number, entityAddressId?: number, addressType?: AddressType, address?: Address) {
+    this.legalEntityId = legalEntityId;
+    this.entityAddressId = (entityAddressId) ? entityAddressId : 0;
+    this.addressType = (addressType) ? addressType : new AddressType();
+    this.address = (address) ? address : new Address();
   }
 }
 

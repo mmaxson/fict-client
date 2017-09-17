@@ -23,7 +23,7 @@
   <div>
 
     <div class="address-table address-table-button-row-button-row">
-      <button md-mini-fab color="primary" [disabled]="disabled" (click)="add()">Add</button>
+      <button md-mini-fab color="primary"                       (click)="add()">Add</button>
       <button md-mini-fab color="primary" [disabled]="disabled" (click)="update()">Edit</button>
       <button md-mini-fab color="primary" [disabled]="disabled" (click)="delete()">Remove</button>
     </div>
@@ -39,6 +39,7 @@
       [externalPaging]="true"
       [count]="addressPage.totalElements"
       [offset]="addressPage.pageNumber"
+      [limit]="addressPage.size"
       [selected]="selectedAddress"
       [selectionType]="'multi'"
       (activate)="onActivateAddress($event)"

@@ -15,6 +15,7 @@ import {AddressType} from './model/address-type';
 
 import {EntityAddressDTO} from './dto/entity-address.dto';
 import {Address} from './model/address';
+import {AddressRow} from './model/address-row';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   private columns = new Array<Object>();
 
   private addressPage = new AddressPage();
-  private addressRows = new Array<Object>();
+  private addressRows = new Array<AddressRow>();
 
   private disabled = true;
 
@@ -43,7 +44,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   private currentLegalEntityId: number;
   private currentAddress: EntityAddress;
 
-  private currentRow;
+  private currentAddressRow: AddressRow;
 
   constructor(private activatedRoute: ActivatedRoute, public dialog: MdDialog, private entityTypeNameTypeService: EntityTypeNameTypeService,
               private legalEntityLoaderService: LegalEntityLoaderService, private entityAddressLoaderService: EntityAddressLoaderService,) {
@@ -76,18 +77,19 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
   onActivateAddress(event) {
-    console.log('Activate Address Event', event);
+     console.log('Activate Address Event', event);
 
-    this.currentRow = event.row;
-    this.currentAddress = new EntityAddress(event.row['entityAddressId'],
+    console.log('Activate Address Event entityAddressId ', event.row.entityAddressId);
+
+   // this.currentAddressRowIndex = this.getCurrentRowIndexByEntityAddressId( event.row.entityAddressId);
+    this.currentAddressRow = event.row;
+   // console.log('Activate Address Event currentAddressRowIndex', this.currentAddressRowIndex);
+
+    this.currentAddress = new EntityAddress(this.currentLegalEntityId, event.row['entityAddressId'],
       new AddressType(event.row['addressTypeId'], event.row['address']),
-      new Address(event.row['addressId'], event.row['street'], event.row['city'], event.row['state'], event.row['zipCode']),
-      this.currentLegalEntityId);
+      new Address(event.row['addressId'], event.row['street'], event.row['city'], event.row['state'], event.row['zipCode']));
 
     this.disabled = false;
-
-
-    //  this.setAddressPage({ offset: 0 });
   }
 
 
@@ -105,40 +107,57 @@ export class LegalEntitiesTableComponent implements OnInit {
     });
   }
 
+  public update() {
+    const dialogRef: MdDialogRef<EntityAddressFormComponent> = this.edit('update');
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const entityAddressDTO: EntityAddressDTO  = result;
+        this.currentAddressRow.addressTypeId =  entityAddressDTO.addressTypeId;
+        this.currentAddressRow.address = AddressType.getAddressTypeText(entityAddressDTO.addressTypeId, this.addressTypes);
+        this.currentAddressRow.street = entityAddressDTO.address.street;
+        this.currentAddressRow.city = entityAddressDTO.address.city;
+        this.currentAddressRow.state = entityAddressDTO.address.state;
+        this.currentAddressRow.zipCode = entityAddressDTO.address.zipCode;
+        this.disabled = true;
+        this.selectedAddress = [];
+      }
+    });
 
-  update(event) {
+  }
 
-    const dialogRef: MdDialogRef<EntityAddressFormComponent> = this.dialog.open(EntityAddressFormComponent,
+  public add() {
+    this.currentAddress = new EntityAddress(this.currentLegalEntityId);
+    const dialogRef: MdDialogRef<EntityAddressFormComponent> = this.edit('add');
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const entityAddressDTO: EntityAddressDTO  = result;
+        this.addressRows.push(new AddressRow(entityAddressDTO.entityAddressId,
+          entityAddressDTO.addressTypeId,
+          AddressType.getAddressTypeText(entityAddressDTO.addressTypeId, this.addressTypes),
+          entityAddressDTO.address.addressId,
+          entityAddressDTO.address.street, entityAddressDTO.address.city,
+          entityAddressDTO.address.state, entityAddressDTO.address.zipCode));
+      }
+    });
+
+  }
+
+  edit(action: string): MdDialogRef<EntityAddressFormComponent> {
+    return this.dialog.open(EntityAddressFormComponent,
       {
         disableClose: false,
         height: '600px',
         width: '800px',
-        data: {entityAddress: this.currentAddress, addressTypes: this.addressTypes}
+        data: {action: action, entityAddress: this.currentAddress, addressTypes: this.addressTypes}
       });
-
-    let entityAddressDTO: EntityAddressDTO;
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        entityAddressDTO = result;
-        this.currentRow['addressTypeId'] = entityAddressDTO.addressTypeId;
-        this.currentRow['address'] = AddressType.getAddressTypeText(entityAddressDTO.addressTypeId, this.addressTypes);
-        this.currentRow['street'] = entityAddressDTO.address.street;
-        this.currentRow['city'] = entityAddressDTO.address.city;
-        this.currentRow['state'] = entityAddressDTO.address.state;
-        this.currentRow['zipCode'] = entityAddressDTO.address.zipCode;
-      }
-      this.disabled = true;
-      this.selectedAddress = [];
-    });
-
-
   }
 
-  private add() {
+
+
+  public delete() {
     this.disabled = true;
   }
 
-  private delete() {
-    this.disabled = true;
-  }
 }
+
