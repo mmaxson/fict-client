@@ -16,6 +16,7 @@ import {AddressType} from './model/address-type';
 import {EntityAddressDTO} from './dto/entity-address.dto';
 import {Address} from './model/address';
 import {AddressRow} from './model/address-row';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 
 
 @Component({
@@ -40,14 +41,15 @@ export class LegalEntitiesTableComponent implements OnInit {
   private disabled = true;
 
   private selected = [];
-  private selectedAddress = [];
+  public selectedAddress = [];
   private currentLegalEntityId: number;
   private currentAddress: EntityAddress;
 
   private currentAddressRow: AddressRow;
 
   constructor(private activatedRoute: ActivatedRoute, public dialog: MdDialog, private entityTypeNameTypeService: EntityTypeNameTypeService,
-              private legalEntityLoaderService: LegalEntityLoaderService, private entityAddressLoaderService: EntityAddressLoaderService,) {
+              private legalEntityLoaderService: LegalEntityLoaderService, private entityAddressLoaderService: EntityAddressLoaderService,
+              private http: HttpClient) {
     this.page.pageNumber = 0;
     this.page.size = 5;
 
@@ -76,22 +78,24 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   }
 
+
   onActivateAddress(event) {
-     console.log('Activate Address Event', event);
 
-    console.log('Activate Address Event entityAddressId ', event.row.entityAddressId);
+    // console.log( 'sel = ' + this.selectedAddress.length);
+    if ( this.selectedAddress.length === 0 ) {
+      this.disabled = true;
+      return;
+    }
+     // console.log('Activate Address Event', event);
 
-   // this.currentAddressRowIndex = this.getCurrentRowIndexByEntityAddressId( event.row.entityAddressId);
+
     this.currentAddressRow = event.row;
-   // console.log('Activate Address Event currentAddressRowIndex', this.currentAddressRowIndex);
-
     this.currentAddress = new EntityAddress(this.currentLegalEntityId, event.row['entityAddressId'],
       new AddressType(event.row['addressTypeId'], event.row['address']),
       new Address(event.row['addressId'], event.row['street'], event.row['city'], event.row['state'], event.row['zipCode']));
 
     this.disabled = false;
   }
-
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
@@ -102,6 +106,10 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   setAddressPage(pageInfo) {
     this.addressPage.pageNumber = pageInfo.offset;
+    this.loadAddressPage();
+  }
+
+  loadAddressPage() {
     this.entityAddressLoaderService.getData(this.addressPage, this.currentLegalEntityId, this.addressTypes).then(retVal => {
       this.addressRows = retVal;
     });
@@ -122,7 +130,6 @@ export class LegalEntitiesTableComponent implements OnInit {
         this.selectedAddress = [];
       }
     });
-
   }
 
   public add() {
@@ -153,10 +160,20 @@ export class LegalEntitiesTableComponent implements OnInit {
       });
   }
 
-
-
   public delete() {
-    this.disabled = true;
+    this.http.delete<Array<string>>('//localhost:8080/murun/fict/addresses/id/' + this.currentAddressRow.entityAddressId).subscribe(
+      response => {
+        console.log(response);
+        this.loadAddressPage();
+        this.disabled = true;
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message);
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
+        }
+      });
   }
 
 }
