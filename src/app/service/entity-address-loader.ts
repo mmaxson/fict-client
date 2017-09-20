@@ -19,31 +19,40 @@ export class EntityAddressLoaderService {
     const promise = new Promise((resolve, reject) => {
 
       console.log('EntityAddressLoaderService:::::::::::' + page.pageNumber );
-      this.http.get<Array<string>>(this.constructUrl(page, legalEntityId)).toPromise().then(
-        response => {
+      this.http.get<Array<string>>(this.constructUrl(page, legalEntityId)).toPromise()
+        .then(
+          (response) => {
+            const end = Math.min(page.size, response['numberOfElements']);
 
-          const end = Math.min(page.size, response['numberOfElements']);
+            const rows = new Array<AddressRow>();
+            for (let i = 0; i < end; i++) {
 
-          const rows = new Array<AddressRow>();
-          for (let i = 0; i < end; i++) {
+              const row = new AddressRow(
+                response['content'][i].entityAddressId,
+                response['content'][i].addressType.addressTypeId,
+                AddressType.getAddressTypeText(response['content'][i].addressType.addressTypeId, addressTypes),
+                response['content'][i].address.addressId,
+                response['content'][i].address.street,
+                response['content'][i].address.city,
+                response['content'][i].address.state,
+                response['content'][i].address.zipCode);
 
-            const row = new AddressRow(
-              response['content'][i].entityAddressId,
-              response['content'][i].addressType.addressTypeId,
-              AddressType.getAddressTypeText(response['content'][i].addressType.addressTypeId, addressTypes),
-              response['content'][i].address.addressId,
-              response['content'][i].address.street,
-              response['content'][i].address.city,
-              response['content'][i].address.state,
-              response['content'][i].address.zipCode);
-
-           // console.log(row);
-            rows.push(row);
-          }
-          page.totalElements = response['totalElements'];
-          page.totalPages = response['totalPages'];
-          resolve(rows);
-        });
+              // console.log(row);
+              rows.push(row);
+            }
+            page.totalElements = response['totalElements'];
+            page.totalPages = response['totalPages'];
+            resolve(rows);
+          },
+          (error) => {
+            if (error.error instanceof Error) {
+              console.log('An error occurred:', error.error.message);
+            } else {
+              console.log(`Backend returned code ${error.status}, body was: ${error.error}`);
+            }
+            reject('error');
+          },
+        );
     });
 
     return promise;

@@ -5,10 +5,12 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {AppMaterialModule} from './app-material.module';
 import {AppComponent} from './app.component';
-import {RouterModule, Routes} from '@angular/router';
+import {AppRoutingModule} from './app-routing.module';
 
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
 import {HttpClientModule} from '@angular/common/http';
+
+import {ApplicationMainComponent} from './application-main.component';
 import {LegalEntitiesTableComponent} from './legal-entities-table.component';
 
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
@@ -16,57 +18,25 @@ import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {EntityAddressLoaderService} from './service/entity-address-loader';
 import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name-type-resolver';
 import {EntityAddressFormComponent} from './entity-address-form.component';
-import {AddressType} from './model/address-type';
-
-const addressTypes: Array<AddressType> = [new AddressType(1, 'Residence'),
-  new AddressType(2, 'Work'), new AddressType(3, 'Mailing'), new AddressType(4, 'Branch'), new AddressType(5, 'Headquarters'),
-  new AddressType(6, 'Warehouse'), new AddressType(7, 'Divisional Headquarters')];
-
-const appRoutes: Routes = [
-  { path: 'corporations',
-    component: LegalEntitiesTableComponent,
-    data: {entityType: 'Corporation', addressTypes: addressTypes
-          },
-    resolve: {
-      columnData: LegalEntityTypeNameTypeResolver,
-      }
-    },
-  { path: 'individuals',
-    component: LegalEntitiesTableComponent,
-    data: {entityType: 'Individual', addressTypes: addressTypes
-           },
-    resolve: {
-      columnData: LegalEntityTypeNameTypeResolver,
-      }
-    },
-  { path: '', redirectTo: '/corporations', pathMatch: 'full'}
-];
-
-
-
+import {AuthGuardService} from './service/auth-guard.service';
+import {AuthenticationService} from './service/authentication-service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    LegalEntitiesTableComponent, EntityAddressFormComponent
+    ApplicationMainComponent, LegalEntitiesTableComponent, EntityAddressFormComponent
   ],
 
   imports: [
-    BrowserModule, NoopAnimationsModule, ReactiveFormsModule, HttpClientModule, NgxDatatableModule, AppMaterialModule,
-    RouterModule.forRoot(
-      appRoutes,
-      {
-        enableTracing: false,
-      }
-    ),
+    BrowserModule, NoopAnimationsModule, ReactiveFormsModule, HttpClientModule, NgxDatatableModule, AppMaterialModule, AppRoutingModule,
   ],
   entryComponents: [
     EntityAddressFormComponent
   ],
 
   providers: [EntityTypeNameTypeService, LegalEntityLoaderService, EntityAddressLoaderService, LegalEntityTypeNameTypeResolver,
-    ],
+    AuthGuardService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

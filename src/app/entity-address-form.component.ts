@@ -24,9 +24,7 @@ export class EntityAddressFormComponent implements OnInit {
   private selectedState: string = this.states[0];
 
 
-  public addressForm = new FormGroup({
-    //  name: new FormControl()
-  });
+  public addressForm = new FormGroup({});
 
 
   constructor(private fb: FormBuilder, public dialogRef: MdDialogRef<EntityAddressFormComponent>,

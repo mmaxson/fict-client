@@ -1,0 +1,27 @@
+<md-sidenav-container fullscreen>
+
+  <md-sidenav mode="side" opened="true">
+    <md-toolbar>
+      <span></span>
+      <md-toolbar-row>
+        <span><li><a routerLink='/main/corporations' routerLinkActive="active">Corporate Entities</a></li></span>
+      </md-toolbar-row>
+      <md-toolbar-row>
+        <span><li><a routerLink='/main/individuals' routerLinkActive="active">Individual Entities</a></li></span>
+      </md-toolbar-row>
+    </md-toolbar>
+  </md-sidenav>
+
+  <md-toolbar color="primary">
+    <span>Legal Entities</span>
+  </md-toolbar>
+
+
+
+  <router-outlet></router-outlet>
+</md-sidenav-container>
+
+
+
+
+

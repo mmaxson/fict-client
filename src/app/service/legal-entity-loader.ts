@@ -16,33 +16,42 @@ export class LegalEntityLoaderService {
   getData(page: Page, columns: Array<Object>, entityType: string): Promise<Array<Object>> {
     const promise = new Promise((resolve, reject) => {
 
-      this.http.get<Array<string>>(this.constructUrl(page, entityType)).toPromise().then(
-        response => {
+      this.http.get<Array<string>>(this.constructUrl(page, entityType)).toPromise()
+        .then(
+          (response) => {
+            const end = Math.min(page.size, response['numberOfElements']);
 
-          const end = Math.min(page.size, response['numberOfElements']);
+            const rows = new Array<Object>();
+            for (let i = 0; i < end; i++) {
 
-          const rows = new Array<Object>();
-          for (let i = 0; i < end; i++) {
-
-            const row = new Object();
-            if (response['content'][i].entityNames.length > 0) {
-              for (let j = 0; j < columns.length; j++) {
-                for (let k = 0; k < columns.length; k++) {
-                  if ((response['content'][i].entityNames[k])
-                    && columns[j]['name'] === response['content'][i].entityNames[k].nameType.nameTypeText) {
-                    row[this.getTableColumnTitle(columns[j]['name'])] = response['content'][i].entityNames[k].name;
-                    break;
+              const row = new Object();
+              if (response['content'][i].entityNames.length > 0) {
+                for (let j = 0; j < columns.length; j++) {
+                  for (let k = 0; k < columns.length; k++) {
+                    if ((response['content'][i].entityNames[k])
+                      && columns[j]['name'] === response['content'][i].entityNames[k].nameType.nameTypeText) {
+                      row[this.getTableColumnTitle(columns[j]['name'])] = response['content'][i].entityNames[k].name;
+                      break;
+                    }
                   }
                 }
+                row['legalEntityId'] = response['content'][i].legalEntityId;
               }
-              row['legalEntityId'] = response['content'][i].legalEntityId;
+              rows.push(row);
             }
-            rows.push(row);
+            page.totalElements = response['totalElements'];
+            page.totalPages = response['totalPages'];
+            resolve(rows);
+          },
+          (error) => {
+            if (error.error instanceof Error) {
+              console.log('An error occurred:', error.error.message);
+            } else {
+              console.log(`Backend returned code ${error.status}, body was: ${error.error}`);
+            }
+            reject('error');
           }
-          page.totalElements = response['totalElements'];
-          page.totalPages = response['totalPages'];
-          resolve(rows);
-        });
+        );
     });
 
     return promise;
