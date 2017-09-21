@@ -3,13 +3,13 @@ import {Injectable} from '@angular/core';
 import {Page} from '../model/page';
 import {AddressType} from '../model/address-type';
 import {AddressRow} from '../model/address-row';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import 'rxjs/Rx';
 
 @Injectable()
 export class EntityAddressLoaderService {
 
-  private baseUrl = '//localhost:8080/murun/fict/addresses/id/';
+  private url = '//localhost:8080/murun/fict/addresses';
 
 
   constructor(private http: HttpClient) {}
@@ -19,7 +19,11 @@ export class EntityAddressLoaderService {
     const promise = new Promise((resolve, reject) => {
 
       console.log('EntityAddressLoaderService:::::::::::' + page.pageNumber );
-      this.http.get<Array<string>>(this.constructUrl(page, legalEntityId)).toPromise()
+      this.http.get<Array<string>>(this.url, {
+          params: new HttpParams()
+            .set('id', legalEntityId.toString())
+            .set('page', page.pageNumber.toString())
+            .set('size', page.size.toString()) }).toPromise()
         .then(
           (response) => {
             const end = Math.min(page.size, response['numberOfElements']);
@@ -58,9 +62,6 @@ export class EntityAddressLoaderService {
     return promise;
   }
 
-  private constructUrl(  page: Page, legalEntityId: number ): string {
-    return  this.baseUrl + legalEntityId + '?page=' + page.pageNumber + '&' + 'size=' + page.size;
-  }
 
 
 

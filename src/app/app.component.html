@@ -15,11 +15,11 @@
         <form (ngSubmit)="onSubmit(loginForm)" [formGroup]="loginForm" novalidate>
 
           <md-form-field>
-            <input mdInput type="text" placeholder="User Id" formControlName="userId"/>
+            <input mdInput type="text" placeholder="Username" formControlName="userName"/>
           </md-form-field>
 
           <md-form-field>
-            <input mdInput type="password" name="password" placeholder="Password" formControlName="password"/>
+            <input mdInput type="password" placeholder="Password" formControlName="password"/>
           </md-form-field>
 
         </form>

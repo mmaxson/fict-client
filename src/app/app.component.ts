@@ -9,7 +9,6 @@ import {AuthenticationService} from './service/authentication-service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None,
-
 })
 export class AppComponent implements OnInit {
 
@@ -30,22 +29,21 @@ export class AppComponent implements OnInit {
 
   createForm() {
     this.loginForm = this.fb.group({
-      userId: ['', Validators.required],
+      userName: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
 
   onSubmit() {
-    this.router.navigate(['/main/corporations']);
-    this.authenticationService.login( this.loginForm.get('userId').value,  this.loginForm.get('password').value ).then(
 
-    )
-          /*data => {
+    this.authenticationService.login( this.loginForm.get('userName').value,  this.loginForm.get('password').value ).then(
+      (response) => {
+        this.router.navigate(['/main/corporations']);
+      },
+      () => {   },
+    );
 
-          },
-          error => {
-          });*/
   }
 
 

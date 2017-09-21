@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {User} from '../model/user';
 import 'rxjs/Rx';
 
-const url = '//localhost:8080/murun/fict/addresses/id/';
+const baseUrl = '//localhost:7771/murun/auth/oauth/token?grant_type=password&';
 
 @Injectable()
 export class AuthenticationService {
   constructor(private http: HttpClient) { }
 
-  login(userId: string, encryptedPassword: string): Promise<User> {
+  login(username: string, password: string): Promise<User> {
     const promise = new Promise((resolve, reject) => {
-      this.http.post<User>(url, JSON.stringify({ 'userId': userId, 'password': encryptedPassword }) ).toPromise()
+      this.http.post<any>(this.constructUrl(username, password), {}, {
+        headers: new HttpHeaders().set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .set('Charset', 'utf-8')
+          .set('Cache-Control', 'no-cache')
+          .set('Authorization', 'Basic ' + btoa('fict' + ':' + 'fict-secret' ))
+      }).toPromise()
         .then(
           (response) => {
             console.log(response);
@@ -33,6 +39,10 @@ export class AuthenticationService {
 
   logout() {
     localStorage.removeItem('currentUser');
+  }
+
+  private constructUrl( username: string, password: string ): string {
+    return  baseUrl + 'username=' + username + '&' + 'password=' + password ;
   }
 }
 

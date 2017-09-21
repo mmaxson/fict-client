@@ -1,13 +1,13 @@
 
 import {Injectable} from '@angular/core';
 import {Page} from '../model/page';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import 'rxjs/Rx';
 
 @Injectable()
 export class LegalEntityLoaderService {
 
-  private baseUrl = '//localhost:8080/murun/fict/entities?';
+  private url = '//localhost:8080/murun/fict/entities';
 
 
   constructor(private http: HttpClient) {}
@@ -16,7 +16,11 @@ export class LegalEntityLoaderService {
   getData(page: Page, columns: Array<Object>, entityType: string): Promise<Array<Object>> {
     const promise = new Promise((resolve, reject) => {
 
-      this.http.get<Array<string>>(this.constructUrl(page, entityType)).toPromise()
+      this.http.get<Array<string>>(this.url, {
+        params: new HttpParams()
+          .set('entity_type', entityType)
+          .set('page', page.pageNumber.toString())
+          .set('size', page.size.toString())}).toPromise()
         .then(
           (response) => {
             const end = Math.min(page.size, response['numberOfElements']);
@@ -55,10 +59,6 @@ export class LegalEntityLoaderService {
     });
 
     return promise;
-  }
-
-  private constructUrl(  page: Page, entityType: string ): string {
-    return  this.baseUrl + 'entity_type=' + entityType + '&page=' + page.pageNumber + '&' + 'size=' + page.size ;
   }
 
   private getTableColumnTitle(dataColumnTitle: string): string {
