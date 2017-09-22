@@ -3,7 +3,7 @@ import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import {AddressType} from './model/address-type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {EntityAddressDTO} from './dto/entity-address.dto';
 import {Address} from './model/address';
 
@@ -83,7 +83,12 @@ export class EntityAddressFormComponent implements OnInit {
 
   doPut(entityAddressToBeSaved: EntityAddressDTO) {
     this.http.put<Array<string>>('//localhost:8080/murun/fict/addresses/', JSON.stringify(entityAddressToBeSaved), {
-        headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json').set('charset', 'utf-8')
+        params: new HttpParams()
+          .set('access_token', localStorage.getItem('authToken')),
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .set('Charset', 'utf-8')
       }
     ).subscribe(
       response => {
@@ -99,7 +104,12 @@ export class EntityAddressFormComponent implements OnInit {
 
   doPost(entityAddressToBeSaved: EntityAddressDTO) {
     this.http.post<Array<string>>('//localhost:8080/murun/fict/addresses/', JSON.stringify(entityAddressToBeSaved), {
-        headers: new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json').set('charset', 'utf-8')
+      params: new HttpParams()
+        .set('access_token', localStorage.getItem('authToken')),
+        headers: new HttpHeaders()
+          .set('Content-Type', 'application/json')
+          .set('Accept', 'application/json')
+          .set('Charset', 'utf-8')
       }
     ).subscribe(
       response => {

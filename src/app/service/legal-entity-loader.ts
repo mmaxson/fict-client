@@ -18,6 +18,7 @@ export class LegalEntityLoaderService {
 
       this.http.get<Array<string>>(this.url, {
         params: new HttpParams()
+          .set('access_token', localStorage.getItem('authToken'))
           .set('entity_type', entityType)
           .set('page', page.pageNumber.toString())
           .set('size', page.size.toString())}).toPromise()

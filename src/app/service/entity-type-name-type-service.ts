@@ -1,7 +1,7 @@
 
 import {Injectable} from '@angular/core';
 import {LegalEntityTypeNameType} from '../model/legal-entity-type-name-type';
-import {HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import 'rxjs/Rx';
 
 
@@ -19,7 +19,10 @@ export class EntityTypeNameTypeService  {
     console.log('loadEntityTypeNameTypeList::::::::::::::::::::');
 
     const promise = new Promise((resolve, reject) => {
-      this.http.get<Array<string>>(this.url).toPromise()
+      this.http.get<Array<string>>(this.url,{
+        params: new HttpParams()
+          .set('access_token', localStorage.getItem('authToken'))
+      }).toPromise()
         .then(
           (response) => {
             const entityTypeNameTypeList = new Array<LegalEntityTypeNameType>();

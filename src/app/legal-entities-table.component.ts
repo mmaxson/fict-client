@@ -16,7 +16,7 @@ import {AddressType} from './model/address-type';
 import {EntityAddressDTO} from './dto/entity-address.dto';
 import {Address} from './model/address';
 import {AddressRow} from './model/address-row';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 
 
 @Component({
@@ -161,7 +161,10 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
   public delete() {
-    this.http.delete<Array<string>>('//localhost:8080/murun/fict/addresses/id/' + this.currentAddressRow.entityAddressId).subscribe(
+    this.http.delete<Array<string>>('//localhost:8080/murun/fict/addresses/id/' + this.currentAddressRow.entityAddressId, {
+      params: new HttpParams()
+        .set('access_token', localStorage.getItem('authToken'))
+    }).subscribe(
       response => {
         console.log(response);
         this.loadAddressPage();

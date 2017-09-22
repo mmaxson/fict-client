@@ -9,7 +9,9 @@ import 'rxjs/Rx';
 @Injectable()
 export class EntityAddressLoaderService {
 
-  private url = '//localhost:8080/murun/fict/addresses';
+  private url = '//localhost:8080/murun/fict/addresses/id/';
+
+
 
 
   constructor(private http: HttpClient) {}
@@ -19,9 +21,10 @@ export class EntityAddressLoaderService {
     const promise = new Promise((resolve, reject) => {
 
       console.log('EntityAddressLoaderService:::::::::::' + page.pageNumber );
-      this.http.get<Array<string>>(this.url, {
+      this.http.get<Array<string>>(this.url + legalEntityId, {
           params: new HttpParams()
-            .set('id', legalEntityId.toString())
+            .set('access_token', localStorage.getItem('authToken'))
+           // .set('id', legalEntityId.toString())
             .set('page', page.pageNumber.toString())
             .set('size', page.size.toString()) }).toPromise()
         .then(

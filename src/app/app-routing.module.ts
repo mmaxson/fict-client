@@ -11,7 +11,7 @@ import {AddressType} from './model/address-type';
 
 
 
-const addressTypes: Array<AddressType> = [new AddressType(1, 'Residence'),
+export const addressTypes: Array<AddressType> = [new AddressType(1, 'Residence'),
   new AddressType(2, 'Work'), new AddressType(3, 'Mailing'), new AddressType(4, 'Branch'), new AddressType(5, 'Headquarters'),
   new AddressType(6, 'Warehouse'), new AddressType(7, 'Divisional Headquarters')];
 

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpParams, HttpHeaders} from '@angular/common/http';
 import {User} from '../model/user';
 import 'rxjs/Rx';
 
-const baseUrl = '//localhost:7771/murun/auth/oauth/token?grant_type=password&';
+const url = '//localhost:7771/murun/auth/oauth/token';
 
 @Injectable()
 export class AuthenticationService {
@@ -11,17 +11,20 @@ export class AuthenticationService {
 
   login(username: string, password: string): Promise<User> {
     const promise = new Promise((resolve, reject) => {
-      this.http.post<any>(this.constructUrl(username, password), {}, {
+      this.http.post<any>(url, {}, {
+        params: new HttpParams()
+          .set('grant_type', 'password')
+          .set('username', username)
+          .set('password', password),
         headers: new HttpHeaders().set('Content-Type', 'application/json')
           .set('Accept', 'application/json')
           .set('Charset', 'utf-8')
           .set('Cache-Control', 'no-cache')
-          .set('Authorization', 'Basic ' + btoa('fict' + ':' + 'fict-secret' ))
-      }).toPromise()
+          .set('Authorization', 'Basic ' + btoa('fict' + ':' + 'fict-secret'  )) }).toPromise()
         .then(
           (response) => {
             console.log(response);
-            localStorage.setItem('currentUser', response['token'] );
+            localStorage.setItem('authToken', response['access_token'] );
             resolve(response);
           },
           (err) => {
@@ -38,12 +41,10 @@ export class AuthenticationService {
   }
 
   logout() {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
   }
 
-  private constructUrl( username: string, password: string ): string {
-    return  baseUrl + 'username=' + username + '&' + 'password=' + password ;
-  }
+
 }
 
 
