@@ -1,4 +1,5 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
 import {AddressType} from './model/address-type';
@@ -6,6 +7,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
 import {EntityAddressDTO} from './dto/entity-address.dto';
 import {Address} from './model/address';
+import {User} from './model/user';
 
 @Component({
   selector: 'app-entity-address-form',
@@ -23,6 +25,7 @@ export class EntityAddressFormComponent implements OnInit {
 
   private selectedState: string = this.states[0];
 
+  private user: User;
 
   public addressForm = new FormGroup({});
 
@@ -30,6 +33,7 @@ export class EntityAddressFormComponent implements OnInit {
   constructor(private fb: FormBuilder, public dialogRef: MdDialogRef<EntityAddressFormComponent>,
               @Inject(MD_DIALOG_DATA) public dialogData: any, private http: HttpClient) {
     this.addressTypes = this.dialogData.addressTypes;
+    this.user = this.dialogData.user;
     this.createForm();
     this.populateForm();
   }
@@ -72,7 +76,6 @@ export class EntityAddressFormComponent implements OnInit {
         this.addressForm.get('state').value, this.addressForm.get('zipCode').value),
       this.dialogData.entityAddress.legalEntityId);
 
-    console.log(JSON.stringify(entityAddressToBeSaved));
     if (this.dialogData.action === 'update') {
       this.doPut(entityAddressToBeSaved);
     } else {
@@ -81,10 +84,12 @@ export class EntityAddressFormComponent implements OnInit {
     this.dialogRef.close(entityAddressToBeSaved);
   }
 
+
+
   doPut(entityAddressToBeSaved: EntityAddressDTO) {
     this.http.put<Array<string>>('//localhost:8080/murun/fict/addresses/', JSON.stringify(entityAddressToBeSaved), {
         params: new HttpParams()
-          .set('access_token', localStorage.getItem('authToken')),
+          .set('access_token', this.user.access_token),
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Accept', 'application/json')
@@ -105,7 +110,7 @@ export class EntityAddressFormComponent implements OnInit {
   doPost(entityAddressToBeSaved: EntityAddressDTO) {
     this.http.post<Array<string>>('//localhost:8080/murun/fict/addresses/', JSON.stringify(entityAddressToBeSaved), {
       params: new HttpParams()
-        .set('access_token', localStorage.getItem('authToken')),
+        .set('access_token', this.user.access_token),
         headers: new HttpHeaders()
           .set('Content-Type', 'application/json')
           .set('Accept', 'application/json')

@@ -1,22 +1,21 @@
-<md-sidenav-container fullscreen>
+@import '~@angular/material/theming';
+<md-sidenav-container style="width:100%;" fullscreen>
 
-  <md-sidenav mode="side" opened="true">
+  <md-sidenav mode="side" opened="true" style="width:11%;">
     <md-toolbar>
-      <span></span>
       <md-toolbar-row>
-        <span><li><a routerLink='/main/corporations' routerLinkActive="active">Corporate Entities</a></li></span>
+        <span><li class="mat-h3"><a class="mat-h3" routerLink='/main/corporations' routerLinkActive="active">Corporate Entities</a></li></span>
       </md-toolbar-row>
       <md-toolbar-row>
-        <span><li><a routerLink='/main/individuals' routerLinkActive="active">Individual Entities</a></li></span>
+        <span><li class="mat-h3"><a class="mat-h3" routerLink='/main/individuals' routerLinkActive="active">Individual Entities</a></li></span>
       </md-toolbar-row>
     </md-toolbar>
   </md-sidenav>
 
-  <md-toolbar color="primary">
-    <span>Legal Entities</span>
+  <md-toolbar class="mat-toolbar" color="primary">
+    <div class="user-div" color="accent">Legal Entities</div>
+      <button md-mini-fab class="user-mini-fab" color="accent" (click)="logout()"><md-icon svgIcon="logout-variant"></md-icon></button>
   </md-toolbar>
-
-
 
   <router-outlet></router-outlet>
 </md-sidenav-container>

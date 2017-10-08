@@ -1,0 +1,20 @@
+
+
+.mat-h1{
+  background-color: aqua;
+  margin:0 auto;
+  text-align: center;
+}
+
+.mat-toolbar{
+  width:100%;
+}
+
+.user-div{
+  width: 100%;
+  text-align: center;
+}
+
+.user-mini-fab{
+  align-self: center;
+}

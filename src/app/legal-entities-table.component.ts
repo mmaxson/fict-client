@@ -17,7 +17,9 @@ import {EntityAddressDTO} from './dto/entity-address.dto';
 import {Address} from './model/address';
 import {AddressRow} from './model/address-row';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
-
+import {DomSanitizer} from '@angular/platform-browser';
+import {MdIconRegistry} from '@angular/material';
+import {User} from './model/user';
 
 @Component({
   selector: 'app-corporations-table',
@@ -46,15 +48,24 @@ export class LegalEntitiesTableComponent implements OnInit {
   private currentAddress: EntityAddress;
 
   private currentAddressRow: AddressRow;
+  private user: User;
 
   constructor(private activatedRoute: ActivatedRoute, public dialog: MdDialog, private entityTypeNameTypeService: EntityTypeNameTypeService,
               private legalEntityLoaderService: LegalEntityLoaderService, private entityAddressLoaderService: EntityAddressLoaderService,
-              private http: HttpClient) {
+              private http: HttpClient, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
+
+    iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl('/assets/mdi.svg'));
+
+
     this.page.pageNumber = 0;
     this.page.size = 5;
 
     this.addressPage.pageNumber = 0;
     this.addressPage.size = 5;
+
+    this.activatedRoute.parent.data.subscribe( (routeData) => {
+      this.user = routeData['user'];
+    });
 
     this.activatedRoute.data
       .subscribe((routeData) => {
@@ -81,13 +92,10 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   onActivateAddress(event) {
 
-    // console.log( 'sel = ' + this.selectedAddress.length);
     if ( this.selectedAddress.length === 0 ) {
       this.disabled = true;
       return;
     }
-     // console.log('Activate Address Event', event);
-
 
     this.currentAddressRow = event.row;
     this.currentAddress = new EntityAddress(this.currentLegalEntityId, event.row['entityAddressId'],
@@ -99,7 +107,7 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   setPage(pageInfo) {
     this.page.pageNumber = pageInfo.offset;
-    this.legalEntityLoaderService.getData(this.page, this.columns, this.entityType).then(retVal => {
+    this.legalEntityLoaderService.getData(this.user, this.page, this.columns, this.entityType).then(retVal => {
       this.rows = retVal;
     });
   }
@@ -110,7 +118,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
   loadAddressPage() {
-    this.entityAddressLoaderService.getData(this.addressPage, this.currentLegalEntityId, this.addressTypes).then(retVal => {
+    this.entityAddressLoaderService.getData(this.user, this.addressPage, this.currentLegalEntityId, this.addressTypes).then(retVal => {
       this.addressRows = retVal;
     });
   }
@@ -154,9 +162,9 @@ export class LegalEntitiesTableComponent implements OnInit {
     return this.dialog.open(EntityAddressFormComponent,
       {
         disableClose: false,
-        height: '600px',
-        width: '800px',
-        data: {action: action, entityAddress: this.currentAddress, addressTypes: this.addressTypes}
+        height: '400px',
+        width: '600px',
+        data: {action: action, entityAddress: this.currentAddress, addressTypes: this.addressTypes, user: this.user}
       });
   }
 

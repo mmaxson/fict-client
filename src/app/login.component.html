@@ -6,27 +6,36 @@
 
 
     <md-card class="mat-card">
-      <md-toolbar style="background:blue; color:whitesmoke;">
+      <md-toolbar style="background:darkblue; color:whitesmoke;">
         <h3 style="margin:0 auto;">Login</h3>
       </md-toolbar>
 
       <br>
       <md-card-content>
-        <form (ngSubmit)="onSubmit(loginForm)" [formGroup]="loginForm" novalidate>
+        <form  (ngSubmit)="onSubmit(loginForm)" [formGroup]="loginForm" novalidate>
 
           <md-form-field>
             <input mdInput type="text" placeholder="Username" formControlName="userName"/>
+            <md-error *ngIf="loginForm.get('userName').hasError('required')">
+              Username is <strong>required</strong>
+            </md-error>
           </md-form-field>
 
           <md-form-field>
             <input mdInput type="password" placeholder="Password" formControlName="password"/>
+            <md-error *ngIf="loginForm.get('password').hasError('required')">
+              Password is <strong>required</strong>
+            </md-error>
           </md-form-field>
 
+          <md-error *ngIf="loginForm.hasError('invalidLogin')">
+            Invalid login. Login information incorrect.
+          </md-error>
         </form>
       </md-card-content>
 
       <md-card-actions style="width:34%; margin:0 auto;">
-        <button type="submit" md-raised-button [disabled]="loginForm.invalid" (click)="onSubmit()">Submit</button>
+        <button type="submit" md-raised-button [disabled]="loginForm.invalid" (click)="login()">Submit</button>
       </md-card-actions>
     </md-card>
   </div>

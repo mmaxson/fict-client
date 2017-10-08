@@ -13,7 +13,7 @@ export class LegalEntityTypeNameTypeResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot): Promise<Array<LegalEntityTypeNameType>>  | boolean {
 
-    return this.entityTypeNameTypeService.getEntityTypeNameTypeList().
+    return this.entityTypeNameTypeService.getEntityTypeNameTypeList(route.parent.data['user']).
       then( data => {
          if (data) {
            return data;

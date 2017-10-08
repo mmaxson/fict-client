@@ -4,7 +4,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgModule} from '@angular/core';
 import {AppMaterialModule} from './app-material.module';
-import {AppComponent} from './app.component';
+import {LoginComponent} from './login.component';
 import {AppRoutingModule} from './app-routing.module';
 
 import {NgxDatatableModule} from '@swimlane/ngx-datatable';
@@ -20,11 +20,12 @@ import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name
 import {EntityAddressFormComponent} from './entity-address-form.component';
 import {AuthGuardService} from './service/auth-guard.service';
 import {AuthenticationService} from './service/authentication-service';
+import {UserResolver} from './resolver/user-resolver';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
+    LoginComponent,
     ApplicationMainComponent, LegalEntitiesTableComponent, EntityAddressFormComponent
   ],
 
@@ -35,8 +36,8 @@ import {AuthenticationService} from './service/authentication-service';
     EntityAddressFormComponent
   ],
 
-  providers: [EntityTypeNameTypeService, LegalEntityLoaderService, EntityAddressLoaderService, LegalEntityTypeNameTypeResolver,
+  providers: [EntityTypeNameTypeService, LegalEntityLoaderService, EntityAddressLoaderService, LegalEntityTypeNameTypeResolver, UserResolver,
     AuthGuardService, AuthenticationService],
-  bootstrap: [AppComponent]
+  bootstrap: [LoginComponent]
 })
-export class AppModule {}
+export class LoginModule {}

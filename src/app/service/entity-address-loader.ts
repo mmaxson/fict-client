@@ -5,25 +5,23 @@ import {AddressType} from '../model/address-type';
 import {AddressRow} from '../model/address-row';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import 'rxjs/Rx';
+import {User} from '../model/user';
 
 @Injectable()
 export class EntityAddressLoaderService {
 
   private url = '//localhost:8080/murun/fict/addresses/id/';
 
-
-
-
   constructor(private http: HttpClient) {}
 
 
-  getData(page: Page, legalEntityId: number, addressTypes: Array<AddressType>): Promise<Array<AddressRow>> {
+  getData(user: User, page: Page, legalEntityId: number, addressTypes: Array<AddressType>): Promise<Array<AddressRow>> {
     const promise = new Promise((resolve, reject) => {
 
       console.log('EntityAddressLoaderService:::::::::::' + page.pageNumber );
       this.http.get<Array<string>>(this.url + legalEntityId, {
           params: new HttpParams()
-            .set('access_token', localStorage.getItem('authToken'))
+            .set('access_token', user.access_token)
            // .set('id', legalEntityId.toString())
             .set('page', page.pageNumber.toString())
             .set('size', page.size.toString()) }).toPromise()
@@ -64,8 +62,6 @@ export class EntityAddressLoaderService {
 
     return promise;
   }
-
-
 
 
 }

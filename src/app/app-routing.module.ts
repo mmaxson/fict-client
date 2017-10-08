@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 
 
 import {AuthGuardService} from './service/auth-guard.service';
@@ -8,23 +8,31 @@ import {LegalEntityTypeNameTypeResolver} from './resolver/legal-entity-type-name
 
 import {LegalEntitiesTableComponent} from './legal-entities-table.component';
 import {AddressType} from './model/address-type';
+import {User} from './model/user';
+import {UserResolver} from './resolver/user-resolver';
 
+const user: User = new User();
 
-
-export const addressTypes: Array<AddressType> = [new AddressType(1, 'Residence'),
-  new AddressType(2, 'Work'), new AddressType(3, 'Mailing'), new AddressType(4, 'Branch'), new AddressType(5, 'Headquarters'),
+export const corporationAddressTypes: Array<AddressType> = [
+  new AddressType(3, 'Mailing'), new AddressType(4, 'Branch'), new AddressType(5, 'Headquarters'),
   new AddressType(6, 'Warehouse'), new AddressType(7, 'Divisional Headquarters')];
+
+export const individualAddressTypes: Array<AddressType> = [new AddressType(1, 'Residence'),
+  new AddressType(2, 'Work'), new AddressType(3, 'Mailing')];
 
 export const appRoutes: Routes = [
   {
     path: 'main', canActivate: [AuthGuardService],
     component: ApplicationMainComponent,
+    resolve: {
+      user: UserResolver,
+    },
     children: [
       {
         path: 'corporations', canActivate: [AuthGuardService],
         component: LegalEntitiesTableComponent,
         data: {
-          entityType: 'Corporation', addressTypes: addressTypes
+          entityType: 'Corporation', addressTypes: corporationAddressTypes
         },
         resolve: {
           columnData: LegalEntityTypeNameTypeResolver,
@@ -34,7 +42,7 @@ export const appRoutes: Routes = [
         path: 'individuals', canActivate: [AuthGuardService],
         component: LegalEntitiesTableComponent,
         data: {
-          entityType: 'Individual', addressTypes: addressTypes
+          entityType: 'Individual', addressTypes: individualAddressTypes
         },
         resolve: {
           columnData: LegalEntityTypeNameTypeResolver,

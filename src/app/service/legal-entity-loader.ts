@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Page} from '../model/page';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import 'rxjs/Rx';
+import {User} from '../model/user';
 
 @Injectable()
 export class LegalEntityLoaderService {
@@ -13,12 +14,12 @@ export class LegalEntityLoaderService {
   constructor(private http: HttpClient) {}
 
 
-  getData(page: Page, columns: Array<Object>, entityType: string): Promise<Array<Object>> {
+  getData(user: User, page: Page, columns: Array<Object>, entityType: string): Promise<Array<Object>> {
     const promise = new Promise((resolve, reject) => {
 
       this.http.get<Array<string>>(this.url, {
         params: new HttpParams()
-          .set('access_token', localStorage.getItem('authToken'))
+          .set('access_token', user.access_token)
           .set('entity_type', entityType)
           .set('page', page.pageNumber.toString())
           .set('size', page.size.toString())}).toPromise()

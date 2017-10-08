@@ -1,23 +1,34 @@
 import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 
-import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
-import { RouteConfigLoadStart } from '@angular/router';
+import {LoginComponent} from './login.component';
 import { Router } from '@angular/router';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MdIconRegistry} from '@angular/material';
+
 
 @Component({
   selector: 'app-main',
   templateUrl: './application-main.component.html',
- // styleUrls: ['./app.component.css'],
+  styleUrls: ['./application-main.component.css'],
   encapsulation: ViewEncapsulation.None,
 
 })
 export class ApplicationMainComponent implements OnInit {
 
-  constructor(private router: Router) {
+  // public userFirstLetter: string;
+
+  constructor(private router: Router, private loginComponent: LoginComponent, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer ) {
+    iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl('/assets/mdi.svg'));
+   //  this.userFirstLetter = this.loginComponent.getUserFirstName().substring(0, 1).toUpperCase();
   }
 
   ngOnInit() {
+
   }
 
+  logout() {
+    this.loginComponent.invalidateUser();
+    this.router.navigate(['/']);
+  }
 }
 

@@ -8,11 +8,11 @@ export class AuthGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-    if (localStorage.getItem('authToken')) {
+    if (localStorage.getItem('user')) {
       return true;
     }
 
-    this.router.navigate(['/login']   );
+    this.router.navigate(['/']   );
     return false;
   }
 }
