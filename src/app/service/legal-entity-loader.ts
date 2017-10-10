@@ -15,7 +15,7 @@ export class LegalEntityLoaderService {
 
 
   getData(user: User, page: Page, columns: Array<Object>, entityType: string): Promise<Array<Object>> {
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<Array<Object>>((resolve, reject) => {
 
       this.http.get<Array<string>>(this.url, {
         params: new HttpParams()
@@ -55,7 +55,7 @@ export class LegalEntityLoaderService {
             } else {
               console.log(`Backend returned code ${error.status}, body was: ${error.error}`);
             }
-            reject('error');
+            reject('Error loading entities.');
           }
         );
     });

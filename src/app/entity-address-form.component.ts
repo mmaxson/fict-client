@@ -8,6 +8,7 @@ import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/c
 import {EntityAddressDTO} from './dto/entity-address.dto';
 import {Address} from './model/address';
 import {User} from './model/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-entity-address-form',
@@ -31,7 +32,7 @@ export class EntityAddressFormComponent implements OnInit {
 
 
   constructor(private fb: FormBuilder, public dialogRef: MdDialogRef<EntityAddressFormComponent>,
-              @Inject(MD_DIALOG_DATA) public dialogData: any, private http: HttpClient) {
+              @Inject(MD_DIALOG_DATA) public dialogData: any, private http: HttpClient, private toastrService: ToastrService) {
     this.addressTypes = this.dialogData.addressTypes;
     this.user = this.dialogData.user;
     this.createForm();
@@ -104,6 +105,7 @@ export class EntityAddressFormComponent implements OnInit {
         } else {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
+        this.toastrService.error('Error updating entity address.', 'Entity Address Update');
       });
   }
 
@@ -125,6 +127,7 @@ export class EntityAddressFormComponent implements OnInit {
         } else {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
+        this.toastrService.error('Error adding new entity address.', 'Entity Address Add New');
       });
   }
 

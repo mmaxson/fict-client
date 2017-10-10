@@ -21,6 +21,9 @@ import {EntityAddressFormComponent} from './entity-address-form.component';
 import {AuthGuardService} from './service/auth-guard.service';
 import {AuthenticationService} from './service/authentication-service';
 import {UserResolver} from './resolver/user-resolver';
+import { ToastrModule } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
+
 
 
 @NgModule({
@@ -30,7 +33,11 @@ import {UserResolver} from './resolver/user-resolver';
   ],
 
   imports: [
-    BrowserModule, NoopAnimationsModule, ReactiveFormsModule, HttpClientModule, NgxDatatableModule, AppMaterialModule, AppRoutingModule,
+    BrowserModule, NoopAnimationsModule, CommonModule, ReactiveFormsModule, HttpClientModule, NgxDatatableModule, AppMaterialModule, AppRoutingModule,
+    ToastrModule.forRoot({timeOut: 0,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+      closeButton: true}),
   ],
   entryComponents: [
     EntityAddressFormComponent

@@ -12,7 +12,7 @@ export class AuthenticationService {
 
   login(username: string, password: string): Promise<User> {
 
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<User>((resolve, reject) => {
       this.http.post<any>(url, {}, {
         params: new HttpParams()
           .set('grant_type', 'password')

@@ -16,7 +16,7 @@ export class EntityAddressLoaderService {
 
 
   getData(user: User, page: Page, legalEntityId: number, addressTypes: Array<AddressType>): Promise<Array<AddressRow>> {
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<Array<AddressRow>>((resolve, reject) => {
 
       console.log('EntityAddressLoaderService:::::::::::' + page.pageNumber );
       this.http.get<Array<string>>(this.url + legalEntityId, {
@@ -55,7 +55,7 @@ export class EntityAddressLoaderService {
             } else {
               console.log(`Backend returned code ${error.status}, body was: ${error.error}`);
             }
-            reject('error');
+            reject('Error loading entity address data.');
           },
         );
     });

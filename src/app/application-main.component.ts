@@ -4,6 +4,7 @@ import {LoginComponent} from './login.component';
 import { Router } from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MdIconRegistry} from '@angular/material';
+import {MdMenu} from '@angular/material';
 
 
 @Component({

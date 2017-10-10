@@ -18,7 +18,7 @@ export class EntityTypeNameTypeService  {
 
     console.log('loadEntityTypeNameTypeList::::::::::::::::::::');
 
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<Array<LegalEntityTypeNameType>>((resolve, reject) => {
       this.http.get<Array<string>>(this.url,{
         params: new HttpParams()
           .set('access_token', user.access_token )
@@ -38,7 +38,7 @@ export class EntityTypeNameTypeService  {
             } else {
               console.log(`Backend returned code ${error.status}, body was: ${error.error}`);
             }
-            reject('error');
+            reject('Error loading entity-type name types.');
           },
         );
     });

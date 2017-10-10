@@ -14,7 +14,18 @@
 
   <md-toolbar class="mat-toolbar" color="primary">
     <div class="user-div" color="accent">Legal Entities</div>
-      <button md-mini-fab class="user-mini-fab" color="accent" (click)="logout()"><md-icon svgIcon="logout-variant"></md-icon></button>
+    <button md-icon-button [mdMenuTriggerFor]="appMenu" >
+      <md-icon>more_vert</md-icon>
+    </button>
+
+    <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
+      <button md-menu-item>
+         Settings
+      </button>
+      <button md-menu-item (click)="logout()">
+         Logout
+      </button>
+    </md-menu>
   </md-toolbar>
 
   <router-outlet></router-outlet>

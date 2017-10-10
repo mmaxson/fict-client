@@ -32,6 +32,7 @@
 }
 
 
+/*
 .btn-group .button {
   background-color: blue;
   border: none;
@@ -43,4 +44,11 @@
   font-size: 12px;
   cursor: pointer;
   float: left;
+}
+*/
+
+
+.md-dialog-title{
+  width:100%;
+  text-align: center;
 }

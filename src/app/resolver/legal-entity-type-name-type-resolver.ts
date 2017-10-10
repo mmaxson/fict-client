@@ -11,16 +11,10 @@ import {EntityTypeNameTypeService} from '../service/entity-type-name-type-servic
 export class LegalEntityTypeNameTypeResolver implements Resolve<any> {
   constructor(private router: Router, private entityTypeNameTypeService: EntityTypeNameTypeService) { }
 
-  resolve(route: ActivatedRouteSnapshot): Promise<Array<LegalEntityTypeNameType>>  | boolean {
 
+
+  resolve(route: ActivatedRouteSnapshot): Promise<Array<LegalEntityTypeNameType>>  {
     return this.entityTypeNameTypeService.getEntityTypeNameTypeList(route.parent.data['user']).
-      then( data => {
-         if (data) {
-           return data;
-         } else {
-           console.log( 'resolver false');  // TODO cancel navigation
-           return false;
-         }
-    });
+      then( data => data );
   }
 }

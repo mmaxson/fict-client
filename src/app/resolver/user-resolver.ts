@@ -12,7 +12,7 @@ export class UserResolver implements Resolve<any> {
 
   resolve(route: ActivatedRouteSnapshot): Promise<User> | boolean {
 
-    const promise = new Promise((resolve, reject) => {
+    const promise = new Promise<User>((resolve, reject) => {
       const userJson = JSON.parse(localStorage.getItem('user'));
       const user = new User();
       user.access_token = userJson.access_token;

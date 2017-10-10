@@ -16,7 +16,7 @@
       [limit]="page.size"
       [selected]="selected"
       [selectionType]="'single'"
-      (activate)='onActivate($event)'
+      (select)='onSelect($event)'
       (page)='setPage($event)'>
     </ngx-datatable>
   </div>

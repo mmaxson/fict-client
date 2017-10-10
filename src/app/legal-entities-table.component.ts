@@ -20,6 +20,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MdIconRegistry} from '@angular/material';
 import {User} from './model/user';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-corporations-table',
@@ -52,7 +53,7 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, public dialog: MdDialog, private entityTypeNameTypeService: EntityTypeNameTypeService,
               private legalEntityLoaderService: LegalEntityLoaderService, private entityAddressLoaderService: EntityAddressLoaderService,
-              private http: HttpClient, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer) {
+              private http: HttpClient, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer, private toastrService: ToastrService) {
 
     iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl('/assets/mdi.svg'));
 
@@ -82,9 +83,10 @@ export class LegalEntitiesTableComponent implements OnInit {
     console.log('Init ' + this.entityType);
   }
 
-  onActivate(event) {
+  onSelect(event) {
 //    console.log('Activate Event', event);
-    this.currentLegalEntityId = event.row['legalEntityId'];
+    console.log(event);
+    this.currentLegalEntityId = event.selected[0]['legalEntityId'];
     this.setAddressPage({offset: 0});
 
   }
@@ -109,7 +111,10 @@ export class LegalEntitiesTableComponent implements OnInit {
     this.page.pageNumber = pageInfo.offset;
     this.legalEntityLoaderService.getData(this.user, this.page, this.columns, this.entityType).then(retVal => {
       this.rows = retVal;
-    });
+    },
+       err => {
+           this.toastrService.error(err, 'Entity Loader Service');
+      });
   }
 
   setAddressPage(pageInfo) {
@@ -120,7 +125,10 @@ export class LegalEntitiesTableComponent implements OnInit {
   loadAddressPage() {
     this.entityAddressLoaderService.getData(this.user, this.addressPage, this.currentLegalEntityId, this.addressTypes).then(retVal => {
       this.addressRows = retVal;
-    });
+    },
+      err => {
+        this.toastrService.error(err, 'Entity Address Loader Service');
+      });
   }
 
   public update() {
@@ -184,6 +192,7 @@ export class LegalEntitiesTableComponent implements OnInit {
         } else {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`);
         }
+        this.toastrService.error('Error deleting entity address.', 'Entity Address Delete');
       });
   }
 
