@@ -4,11 +4,12 @@ import {AddressPage} from './model/address-page';
 import {EntityTypeNameTypeService} from './service/entity-type-name-type-service';
 import {LegalEntityLoaderService} from './service/legal-entity-loader';
 import {EntityAddressLoaderService} from './service/entity-address-loader';
-import {MdDialog} from '@angular/material';
+
 import {ActivatedRoute} from '@angular/router';
 
 import {EntityAddressFormComponent} from './entity-address-form.component';
-import {MdDialogRef} from '@angular/material';
+import {MatDialog} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 import {EntityAddress} from './model/entity-address';
 import {AddressType} from './model/address-type';
@@ -18,7 +19,7 @@ import {Address} from './model/address';
 import {AddressRow} from './model/address-row';
 import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MdIconRegistry} from '@angular/material';
+import {MatIconRegistry} from '@angular/material';
 import {User} from './model/user';
 import { ToastrService } from 'ngx-toastr';
 
@@ -51,9 +52,9 @@ export class LegalEntitiesTableComponent implements OnInit {
   private currentAddressRow: AddressRow;
   private user: User;
 
-  constructor(private activatedRoute: ActivatedRoute, public dialog: MdDialog, private entityTypeNameTypeService: EntityTypeNameTypeService,
+  constructor(private activatedRoute: ActivatedRoute, public dialog: MatDialog, private entityTypeNameTypeService: EntityTypeNameTypeService,
               private legalEntityLoaderService: LegalEntityLoaderService, private entityAddressLoaderService: EntityAddressLoaderService,
-              private http: HttpClient, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer, private toastrService: ToastrService) {
+              private http: HttpClient, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private toastrService: ToastrService) {
 
     iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl('/assets/mdi.svg'));
 
@@ -84,7 +85,6 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
   onSelect(event) {
-//    console.log('Activate Event', event);
     console.log(event);
     this.currentLegalEntityId = event.selected[0]['legalEntityId'];
     this.setAddressPage({offset: 0});
@@ -132,7 +132,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
   public update() {
-    const dialogRef: MdDialogRef<EntityAddressFormComponent> = this.edit('update');
+    const dialogRef: MatDialogRef<EntityAddressFormComponent> = this.edit('update');
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         const entityAddressDTO: EntityAddressDTO  = result;
@@ -150,7 +150,7 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   public add() {
     this.currentAddress = new EntityAddress(this.currentLegalEntityId);
-    const dialogRef: MdDialogRef<EntityAddressFormComponent> = this.edit('add');
+    const dialogRef: MatDialogRef<EntityAddressFormComponent> = this.edit('add');
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -166,7 +166,7 @@ export class LegalEntitiesTableComponent implements OnInit {
 
   }
 
-  edit(action: string): MdDialogRef<EntityAddressFormComponent> {
+  edit(action: string): MatDialogRef<EntityAddressFormComponent> {
     return this.dialog.open(EntityAddressFormComponent,
       {
         disableClose: false,
@@ -179,7 +179,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   public delete() {
     this.http.delete<Array<string>>('//localhost:8080/murun/fict/addresses/id/' + this.currentAddressRow.entityAddressId, {
       params: new HttpParams()
-        .set('access_token', localStorage.getItem('authToken'))
+        .set('access_token', this.user.access_token)
     }).subscribe(
       response => {
         console.log(response);

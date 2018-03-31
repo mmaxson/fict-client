@@ -1,17 +1,18 @@
 import {NgModule} from '@angular/core';
 import {
-  MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule,
-  MdInputModule, MdDialogModule, MdSelectModule, MdOptionModule, MdFormFieldModule, MdCardModule, MdIconModule,
-  MdMenuModule
+  MatSidenavModule, MatToolbarModule, MatButtonModule, MatCheckboxModule,
+  MatInputModule, MatDialogModule, MatSelectModule, MatOptionModule, MatFormFieldModule, MatCardModule, MatIconModule,
+  MatMenuModule
 } from '@angular/material';
-import {HttpModule} from "@angular/http";
+
+import {HttpClientModule} from "@angular/common/http";
 
 
 
 @NgModule({
-  imports: [MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule, MdInputModule, MdDialogModule, MdSelectModule, MdOptionModule,
-    MdFormFieldModule, MdCardModule, MdIconModule, HttpModule, MdMenuModule ],
-  exports: [MdSidenavModule, MdToolbarModule, MdButtonModule, MdCheckboxModule, MdInputModule, MdDialogModule, MdSelectModule, MdOptionModule,
-    MdFormFieldModule, MdCardModule, MdIconModule, HttpModule, MdMenuModule ]
+  imports: [MatSidenavModule, MatToolbarModule, MatButtonModule, MatCheckboxModule, MatInputModule, MatDialogModule, MatSelectModule, MatOptionModule,
+    MatFormFieldModule, MatCardModule, MatIconModule, HttpClientModule, MatMenuModule ],
+  exports: [MatSidenavModule, MatToolbarModule, MatButtonModule, MatCheckboxModule, MatInputModule, MatDialogModule, MatSelectModule, MatOptionModule,
+    MatFormFieldModule, MatCardModule, MatIconModule, HttpClientModule, MatMenuModule ]
 })
 export class AppMaterialModule { }

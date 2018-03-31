@@ -1,66 +1,68 @@
-<div class="address-card">
-  <h2 md-dialog-title>Address</h2>
-  <div md-dialog-content>
+<div class="address-card" style="width: 100%">
+  <h3 mat-dialog-title color="accent" style="width:100%;">Address</h3>
+  <div mat-dialog-content>
 
     <form class="address-form" (ngSubmit)="onSubmit(addressForm)" [formGroup]="addressForm" novalidate>
 
-      <md-select placeholder="Address Type" formControlName="addressType">
-        <md-option *ngFor="let addressType of addressTypes" [value]="addressType.addressTypeId">
+      <mat-select placeholder="Address Type" formControlName="addressType">
+        <mat-option *ngFor="let addressType of addressTypes" [value]="addressType.addressTypeId">
           {{addressType.addressTypeText}}
-        </md-option>
-      </md-select>
-      <md-error *ngIf="addressForm.get('addressType').hasError('required')">
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="addressForm.get('addressType').hasError('required')">
         Address Type is <strong>required</strong>
-      </md-error>
+      </mat-error>
 
-      <md-form-field class="address-form-full-width">
+      <mat-form-field class="address-form-full-width">
         <input mdInput placeholder="Street" formControlName="street">
-        <md-error *ngIf="addressForm.get('street').hasError('required')">
+        <mat-error *ngIf="addressForm.get('street').hasError('required')">
           Street is <strong>required</strong>
-        </md-error>
-      </md-form-field>
+        </mat-error>
+      </mat-form-field>
 
       <table style="width: 100%" cellspacing="0">
         <tr>
           <td>
-            <md-form-field class="address-form-full-width">
+            <mat-form-field class="address-form-full-width">
               <input mdInput placeholder="City" formControlName="city">
-              <md-error *ngIf="addressForm.get('city').hasError('required')">
-                City is <strong>required</strong>
-              </md-error>
-            </md-form-field>
+              <mat-error *ngIf="addressForm.get('city').hasError('required')">
+                City is <strong>required</strong>ng
+              </mat-error>
+            </mat-form-field>
           </td>
           <td>
-            <md-select placeholder="State" name="state" formControlName="state">
-              <md-option *ngFor="let state of states" [value]="state">{{state}}</md-option>
-            </md-select>
-            <md-error *ngIf="addressForm.get('state').hasError('required')">
+            <mat-select placeholder="State" name="state" formControlName="state">
+              <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="addressForm.get('state').hasError('required')">
               State is <strong>required</strong>
-            </md-error>
+            </mat-error>
           </td>
           <td>
-            <md-form-field class="address-form-full-width">
+            <mat-form-field class="address-form-full-width">
               <input mdInput #postalCode maxLength="5" placeholder="Postal Code" formControlName="zipCode"
                      pattern="[0-9]{5}" name="zipCode">
-              <!--<md-hint align="end">
-                <md-icon>mode_edit</md-icon>
+              <!--<mat-hint align="end">
+                <mat-icon>mode_edit</mat-icon>
                 <span aria-live="polite">{{address.zipCode.length}} / 5</span>
-              </md-hint>-->
-              <md-error *ngIf="addressForm.get('zipCode').hasError('required')">
+              </mat-hint>-->
+              <mat-error *ngIf="addressForm.get('zipCode').hasError('required')">
                 Postal Code is <strong>required</strong>
-              </md-error>
-            </md-form-field>
+              </mat-error>
+            </mat-form-field>
           </td>
         </tr>
       </table>
+
+
     </form>
 
   </div>
 
 
-  <div md-dialog-actions class="btn-group">
-    <button class="button" type="submit" md-raised-button [disabled]="addressForm.invalid" (click)="onSubmit()">Submit</button>
-    <button class="button" md-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+  <div mat-dialog-actions class="btn-group">
+    <button class="button" type="submit" mat-raised-button [disabled]="addressForm.invalid" (click)="onSubmit()">Submit</button>
+    <button class="button" mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
   </div>
 
 </div>

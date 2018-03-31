@@ -3,8 +3,8 @@ import {Component, ViewEncapsulation, OnInit} from '@angular/core';
 import {LoginComponent} from './login.component';
 import { Router } from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
-import {MdIconRegistry} from '@angular/material';
-import {MdMenu} from '@angular/material';
+import {MatIconRegistry} from '@angular/material';
+
 
 
 @Component({
@@ -18,7 +18,7 @@ export class ApplicationMainComponent implements OnInit {
 
   // public userFirstLetter: string;
 
-  constructor(private router: Router, private loginComponent: LoginComponent, iconRegistry: MdIconRegistry, sanitizer: DomSanitizer ) {
+  constructor(private router: Router, private loginComponent: LoginComponent, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer ) {
     iconRegistry.addSvgIconSet(sanitizer.bypassSecurityTrustResourceUrl('/assets/mdi.svg'));
    //  this.userFirstLetter = this.loginComponent.getUserFirstName().substring(0, 1).toUpperCase();
   }

@@ -12,7 +12,7 @@
 
       <br>
       <md-card-content>
-        <form  (ngSubmit)="onSubmit(loginForm)" [formGroup]="loginForm" novalidate>
+        <form  (ngSubmit)="login(loginForm)" [formGroup]="loginForm" novalidate>
 
           <md-form-field>
             <input mdInput type="text" placeholder="Username" formControlName="userName"/>
@@ -28,9 +28,9 @@
             </md-error>
           </md-form-field>
 
-          <md-error *ngIf="loginForm.hasError('invalidLogin')">
+          <mat-error *ngIf="loginForm.hasError('invalidLogin')">
             Invalid login. Login information incorrect.
-          </md-error>
+          </mat-error>
         </form>
       </md-card-content>
 

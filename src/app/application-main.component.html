@@ -1,35 +1,35 @@
 @import '~@angular/material/theming';
-<md-sidenav-container style="width:100%;" fullscreen>
+<mat-sidenav-container style="width:100%;" fullscreen>
 
-  <md-sidenav mode="side" opened="true" style="width:11%;">
-    <md-toolbar>
-      <md-toolbar-row>
+  <mat-sidenav mode="side" opened="true" style="width:11%;">
+    <mat-toolbar>
+      <mat-toolbar-row>
         <span><li class="mat-h3"><a class="mat-h3" routerLink='/main/corporations' routerLinkActive="active">Corporate Entities</a></li></span>
-      </md-toolbar-row>
-      <md-toolbar-row>
+      </mat-toolbar-row>
+      <mat-toolbar-row>
         <span><li class="mat-h3"><a class="mat-h3" routerLink='/main/individuals' routerLinkActive="active">Individual Entities</a></li></span>
-      </md-toolbar-row>
-    </md-toolbar>
-  </md-sidenav>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </mat-sidenav>
 
-  <md-toolbar class="mat-toolbar" color="primary">
+  <mat-toolbar class="mat-toolbar" color="primary">
     <div class="user-div" color="accent">Legal Entities</div>
-    <button md-icon-button [mdMenuTriggerFor]="appMenu" >
-      <md-icon>more_vert</md-icon>
+    <button mat-icon-button [mdMenuTriggerFor]="appMenu" >
+      <mat-icon>more_vert</mat-icon>
     </button>
 
-    <md-menu #appMenu="mdMenu" [overlapTrigger]="false">
-      <button md-menu-item>
+    <mat-menu #appMenu="mdMenu" [overlapTrigger]="false">
+      <button mat-menu-item>
          Settings
       </button>
-      <button md-menu-item (click)="logout()">
+      <button mat-menu-item (click)="logout()">
          Logout
       </button>
-    </md-menu>
-  </md-toolbar>
+    </mat-menu>
+  </mat-toolbar>
 
   <router-outlet></router-outlet>
-</md-sidenav-container>
+</mat-sidenav-container>
 
 
 
