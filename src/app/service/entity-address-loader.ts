@@ -4,7 +4,7 @@ import {Page} from '../model/page';
 import {AddressType} from '../model/address-type';
 import {AddressRow} from '../model/address-row';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import 'rxjs/Rx';
+import 'rxjs/Rx' ;
 import {User} from '../model/user';
 
 @Injectable()

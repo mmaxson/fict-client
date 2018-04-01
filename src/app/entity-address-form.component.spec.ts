@@ -20,7 +20,7 @@ import {HttpClient} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {CommonModule, APP_BASE_HREF} from '@angular/common';
 
-import {MdDialog, MdDialogModule, MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {AddressType} from './model/address-type';
 import {EntityAddress} from './model/entity-address';
@@ -33,7 +33,7 @@ export const corporationAddressTypes: Array<AddressType> = [
 
 @NgModule({
   declarations: [EntityAddressFormComponent],
-  imports: [BrowserModule, NoopAnimationsModule, AppMaterialModule, ReactiveFormsModule, MdDialogModule, HttpClientTestingModule],
+  imports: [BrowserModule, NoopAnimationsModule, AppMaterialModule, ReactiveFormsModule, MatDialogModule, HttpClientTestingModule],
   providers: [FormBuilder, HttpClient],
   entryComponents: [EntityAddressFormComponent],
 //  schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA],
@@ -51,7 +51,7 @@ describe('EntityAddressFormComponent', () => {
 
 
   let componentInstance: EntityAddressFormComponent;
-  let dialog: MdDialog;
+  let dialog: MatDialog;
   let fixture: ComponentFixture<EntityAddressFormComponent>;
   let dialogRef;
 
@@ -63,7 +63,7 @@ describe('EntityAddressFormComponent', () => {
       providers: [FormBuilder, /*{provide: Router, useValue: mockRouter},*/  {provide: APP_BASE_HREF, useValue: '/'}],
       schemas: [NO_ERRORS_SCHEMA, CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents().then(() => {
-        dialog = TestBed.get(MdDialog);
+        dialog = TestBed.get(MatDialog);
         const address = new EntityAddress(1, 1, new AddressType(1, 'Work'), new Address(1, 'street', 'city', 'state', '11111'));
 
         dialogRef = dialog.open(EntityAddressFormComponent, {

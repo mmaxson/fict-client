@@ -14,7 +14,7 @@
       </mat-error>
 
       <mat-form-field class="address-form-full-width">
-        <input mdInput placeholder="Street" formControlName="street">
+        <input matInput placeholder="Street" formControlName="street">
         <mat-error *ngIf="addressForm.get('street').hasError('required')">
           Street is <strong>required</strong>
         </mat-error>
@@ -24,23 +24,25 @@
         <tr>
           <td>
             <mat-form-field class="address-form-full-width">
-              <input mdInput placeholder="City" formControlName="city">
+              <input matInput placeholder="City" formControlName="city">
               <mat-error *ngIf="addressForm.get('city').hasError('required')">
                 City is <strong>required</strong>ng
               </mat-error>
             </mat-form-field>
           </td>
           <td>
+            <mat-form-field class="address-form-full-width">
             <mat-select placeholder="State" name="state" formControlName="state">
               <mat-option *ngFor="let state of states" [value]="state">{{state}}</mat-option>
             </mat-select>
             <mat-error *ngIf="addressForm.get('state').hasError('required')">
               State is <strong>required</strong>
             </mat-error>
+            </mat-form-field>
           </td>
           <td>
             <mat-form-field class="address-form-full-width">
-              <input mdInput #postalCode maxLength="5" placeholder="Postal Code" formControlName="zipCode"
+              <input matInput #postalCode maxLength="5" placeholder="Postal Code" formControlName="zipCode"
                      pattern="[0-9]{5}" name="zipCode">
               <!--<mat-hint align="end">
                 <mat-icon>mode_edit</mat-icon>

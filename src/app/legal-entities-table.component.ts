@@ -21,7 +21,7 @@ import {HttpClient, HttpErrorResponse, HttpParams} from '@angular/common/http';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatIconRegistry} from '@angular/material';
 import {User} from './model/user';
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-corporations-table',

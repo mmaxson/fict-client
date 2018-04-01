@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+
 <mat-sidenav-container style="width:100%;" fullscreen>
 
   <mat-sidenav mode="side" opened="true" style="width:11%;">
@@ -14,11 +14,11 @@
 
   <mat-toolbar class="mat-toolbar" color="primary">
     <div class="user-div" color="accent">Legal Entities</div>
-    <button mat-icon-button [mdMenuTriggerFor]="appMenu" >
+    <button mat-icon-button [matMenuTriggerFor]="appMenu" >
       <mat-icon>more_vert</mat-icon>
     </button>
 
-    <mat-menu #appMenu="mdMenu" [overlapTrigger]="false">
+    <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item>
          Settings
       </button>

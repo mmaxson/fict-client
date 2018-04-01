@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
-import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {AddressType} from './model/address-type';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from '@angular/common/http';
@@ -31,8 +31,8 @@ export class EntityAddressFormComponent implements OnInit {
   public addressForm = new FormGroup({});
 
 
-  constructor(private fb: FormBuilder, public dialogRef: MdDialogRef<EntityAddressFormComponent>,
-              @Inject(MD_DIALOG_DATA) public dialogData: any, private http: HttpClient, private toastrService: ToastrService) {
+  constructor(private fb: FormBuilder, public dialogRef: MatDialogRef<EntityAddressFormComponent>,
+              @Inject(MAT_DIALOG_DATA) public dialogData: any, private http: HttpClient, private toastrService: ToastrService) {
     this.addressTypes = this.dialogData.addressTypes;
     this.user = this.dialogData.user;
     this.createForm();
@@ -61,6 +61,7 @@ export class EntityAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
+
     console.log('EntityAddressFormComponent');
   }
 
