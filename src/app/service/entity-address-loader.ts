@@ -22,7 +22,6 @@ export class EntityAddressLoaderService {
       this.http.get<Array<string>>(this.url + legalEntityId, {
           params: new HttpParams()
             .set('access_token', user.access_token)
-           // .set('id', legalEntityId.toString())
             .set('page', page.pageNumber.toString())
             .set('size', page.size.toString()) }).toPromise()
         .then(
@@ -33,16 +32,17 @@ export class EntityAddressLoaderService {
             for (let i = 0; i < end; i++) {
 
               const row = new AddressRow(
-                response['content'][i].entityAddressId,
-                response['content'][i].addressType.addressTypeId,
-                AddressType.getAddressTypeText(response['content'][i].addressType.addressTypeId, addressTypes),
-                response['content'][i].address.addressId,
-                response['content'][i].address.street,
-                response['content'][i].address.city,
-                response['content'][i].address.state,
-                response['content'][i].address.zipCode);
+                                response['content'][i].entityAddressId,
+                                response['content'][i].addressType.addressTypeId,
+                                       AddressType.getAddressTypeText(response['content'][i].addressType.addressTypeId, addressTypes),
+                                response['content'][i].address.addressId,
+                                response['content'][i].address.street,
+                                response['content'][i].address.city,
+                                response['content'][i].address.state,
+                                response['content'][i].address.zipCode
+                               );
 
-              // console.log(row);
+               // console.log(row);
               rows.push(row);
             }
             page.totalElements = response['totalElements'];

@@ -61,7 +61,6 @@ export class EntityAddressFormComponent implements OnInit {
   }
 
   ngOnInit() {
-
     console.log('EntityAddressFormComponent');
   }
 

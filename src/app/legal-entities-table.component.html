@@ -42,7 +42,7 @@
       [limit]="addressPage.size"
       [selected]="selectedAddress"
       [selectionType]="'multi'"
-      (activate)="onActivateAddress($event)"
+      (select)="onSelectAddress($event)"
       (page)='setAddressPage($event)'>
       <ngx-datatable-column
         [sortable]="false"

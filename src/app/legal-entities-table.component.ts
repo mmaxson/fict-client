@@ -92,17 +92,18 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
 
-  onActivateAddress(event) {
+  onSelectAddress(event) {
 
     if ( this.selectedAddress.length === 0 ) {
       this.disabled = true;
       return;
     }
 
-    this.currentAddressRow = event.row;
-    this.currentAddress = new EntityAddress(this.currentLegalEntityId, event.row['entityAddressId'],
-      new AddressType(event.row['addressTypeId'], event.row['address']),
-      new Address(event.row['addressId'], event.row['street'], event.row['city'], event.row['state'], event.row['zipCode']));
+    this.currentAddressRow = event.selected[0];
+
+    this.currentAddress = new EntityAddress(this.currentLegalEntityId, event.selected[0]['entityAddressId'],
+      new AddressType(event.selected[0]['addressTypeId'], event.selected[0]['address']),
+      new Address(event.selected[0]['addressId'], event.selected[0]['street'], event.selected[0]['city'], event.selected[0]['state'], event.selected[0]['zipCode']));
 
     this.disabled = false;
   }
@@ -123,6 +124,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
   loadAddressPage() {
+
     this.entityAddressLoaderService.getData(this.user, this.addressPage, this.currentLegalEntityId, this.addressTypes).then(retVal => {
       this.addressRows = retVal;
     },
@@ -167,6 +169,7 @@ export class LegalEntitiesTableComponent implements OnInit {
   }
 
   edit(action: string): MatDialogRef<EntityAddressFormComponent> {
+    console.log(this.currentAddress);
     return this.dialog.open(EntityAddressFormComponent,
       {
         disableClose: false,
